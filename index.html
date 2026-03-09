@@ -365,7 +365,18 @@ header p{color:var(--header-sub);font-size:12px;margin-top:3px;}
 .date-dispo-row.manquante{animation:shake 0.4s ease 5;}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 
-/* ===== MISC ===== */
+/* ===== PERIODE INDISPONIBILITE ===== */
+.periode-title{font-size:11px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;padding-top:12px;border-top:2px dashed rgba(56,189,248,0.3);}
+.periode-row{display:flex;gap:10px;margin-bottom:10px;}
+.periode-field{flex:1;display:flex;flex-direction:column;gap:4px;}
+.periode-lbl{font-size:11px;font-weight:700;color:var(--service-label);text-transform:uppercase;}
+.periode-input{width:100%;padding:8px 10px;border:2px solid var(--accent);border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);background:var(--input-bg);outline:none;-webkit-appearance:none;}
+.btn-appliquer-periode{width:100%;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:8px;}
+.periode-result{background:#FEF2F2;border:1.5px solid #EF4444;border-radius:10px;padding:10px 12px;font-size:12px;color:#7F1D1D;}
+[data-theme="dark"] .periode-result{background:#2a0a0a;color:#FCA5A5;}
+.periode-result strong{display:block;font-size:13px;margin-bottom:4px;}
+.periode-affected-list{margin-top:6px;display:flex;flex-direction:column;gap:3px;}
+.periode-affected-item{font-size:11px;padding:3px 8px;background:rgba(239,68,68,0.1);border-radius:6px;}
 .empty{text-align:center;color:var(--empty-color);padding:50px 20px;font-size:14px;}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-thumb{background:#38BDF8;border-radius:2px;}
@@ -524,16 +535,32 @@ header p{color:var(--header-sub);font-size:12px;margin-top:3px;}
     <div class="popup-status-btns">
       <button class="popup-btn btn-remplacer" id="btnRemplacer">
         <span class="btn-icon">⚠️</span>
-        <div class="btn-text"><span>À remplacer</span><small>Cherche un remplaçant</small></div>
+        <div class="btn-text"><span>À remplacer</span><small>Cherche un remplaçant pour ce service</small></div>
       </button>
       <button class="popup-btn btn-indisponible" id="btnIndisponible">
         <span class="btn-icon">❌</span>
-        <div class="btn-text"><span>Indisponible</span><small>Absent·e ce jour</small></div>
+        <div class="btn-text"><span>Indisponible — Définir une période</span><small>Marquer absent·e sur plusieurs dates</small></div>
       </button>
       <button class="popup-btn btn-normal" id="btnNormal">
         <span class="btn-icon">✓</span>
         <div class="btn-text"><span>Disponible</span><small>Retour au statut normal</small></div>
       </button>
+    </div>
+    <!-- PERIODE INDISPONIBILITE -->
+    <div id="periodeBox" style="display:none">
+      <div class="periode-title">📅 Période d'indisponibilité</div>
+      <div class="periode-row">
+        <div class="periode-field">
+          <label class="periode-lbl">Du</label>
+          <input type="date" id="periodeDebut" class="periode-input">
+        </div>
+        <div class="periode-field">
+          <label class="periode-lbl">Au</label>
+          <input type="date" id="periodeFin" class="periode-input">
+        </div>
+      </div>
+      <button class="btn-appliquer-periode" id="btnAppliquerPeriode">✓ Appliquer la période</button>
+      <div id="periode-result" class="periode-result" style="display:none"></div>
     </div>
     <!-- REMPLACANTS SUGGERES -->
     <div class="replacements-box" id="replBox" style="display:none">
@@ -563,6 +590,22 @@ var RAW_DATA=[{"date": "2026-01-03", "date_display": "Samedi 3 Janvier 2026", "d
 
 var PERSONS=["ALAND Alex","ANGERVILLE Axandre","BERGAME Luc","BERGAME Maïley","BULLET Marius","DELIN Yannick","DELTA Joël","DESERT Jean-Michel","GASPARD Jean","GASPARD Steeven","GBEDEDJI Credo","GOSSET Samuel","HOUCHAT Marc","INNOCENT Robert","LANDEAU Sammy","LEFRAND Thierry","MALELA Bruce","MAQUIABA Claude","MAUZOLE Boris","MAUZOLE Maxime","MBOMA Junior","MIATTI Didier","MIATTI Yanis","MPOVI Tevi","MUHEL Mathieu","MUNGULU Stivy","NGO Tommy","PAPA Antoni","PATIENT Clyde","POMPEU Joël","POMPEU Marc","RECCHIA Frédéric","RECCHIA Raphaël","SUARES Cedrick","VAUTIER Philippe","VILSANS Thierry","ZODROS Axel"];
 
+var SERVICE_ICONS={
+  'Audio':            '🎤',
+  'Vidéo':            '📹',
+  'Perches - Partie 1':'🎙️',
+  'Perches - Partie 2':'🎙️',
+  'Estrade':          '🎭',
+  'Estrade - Tablette':'📱',
+  'Accueil - Admission Zoom':'💻',
+  'Accueil - Ouverture':'🚪',
+  'Accueil - Auditorium':'🏛️'
+};
+function svcIcon(s){return SERVICE_ICONS[s]||'🎯';}
+function svcLabel(s){
+  var lbl=s.replace('Accueil - ','').replace('Perches - ','Perches ');
+  return svcIcon(s)+' '+lbl;
+}
 var SERVICES_ORDER=['Audio','Vidéo','Perches - Partie 1','Perches - Partie 2','Estrade','Estrade - Tablette','Accueil - Admission Zoom','Accueil - Ouverture','Accueil - Auditorium'];
 var MONTHS=['Janvier 2026','Février 2026','Mars 2026'];
 var MONTHS_FR=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
@@ -661,8 +704,8 @@ function renderPlanning(){
       for(var si=0;si<svcs.length;si+=2){
         html+='<div class="service-row">';
         for(var sj=si;sj<Math.min(si+2,svcs.length);sj++){
-          var svc=svcs[sj],persons=info.services[svc],lbl=svc.replace('Accueil - ','');
-          html+='<div class="service-cell"><div class="service-label">'+esc(lbl)+'</div><div class="service-persons">';
+          var svc=svcs[sj],persons=info.services[svc];
+          html+='<div class="service-cell"><div class="service-label">'+svcLabel(svc)+'</div><div class="service-persons">';
           for(var ppi=0;ppi<persons.length;ppi++){
             var pname=persons[ppi],st=getStatus(pname,date,svc),stClass=st!=='normal'?' status-'+st:'',stIcon=st==='remplacer'?' ⚠️':(st==='indisponible'?' ❌':'');
             html+='<span class="person-chip'+stClass+'" data-person="'+esc(pname)+'" data-date="'+esc(date)+'" data-service="'+esc(svc)+'">'+esc(pname)+stIcon+'</span>';
@@ -724,7 +767,7 @@ function renderMyPlan(name){
       html+='<div class="date-section'+(isToday?' today-section':'')+'">'+(isToday?'<div class="today-label">📍 Aujourd\'hui</div>':'')+
         '<div class="date-header"><div class="date-badge '+dayClass+'">'+esc(e.display)+'</div><div class="date-line"></div></div>'+
         '<div class="services-grid"><div class="service-row"><div class="service-cell">'+
-        '<div class="service-label">'+esc(e.service.replace('Accueil - ',''))+'</div>'+
+        '<div class="service-label">'+svcLabel(e.service)+'</div>'+
         '<div class="service-persons"><span class="person-chip'+stClass+' highlighted" data-person="'+esc(name)+'" data-date="'+esc(e.date)+'" data-service="'+esc(e.service)+'">'+esc(name)+stIcon+'</span></div>'+
         '</div></div></div></div>';
     }
@@ -757,7 +800,7 @@ function openPanel(name){
   document.getElementById('panelStats').innerHTML=s;
   var bodyHtml='',svcs=Object.keys(info.services).sort(function(a,b){var ia=SERVICES_ORDER.indexOf(a),ib=SERVICES_ORDER.indexOf(b);return(ia<0?99:ia)-(ib<0?99:ib);});
   for(var i=0;i<svcs.length;i++){
-    var svc=svcs[i];bodyHtml+='<div class="svc-group"><div class="svc-group-title">🎯 '+esc(svc)+'</div>';
+    var svc=svcs[i];bodyHtml+='<div class="svc-group"><div class="svc-group-title">'+svcLabel(svc)+'</div>';
     var entries=info.services[svc].slice().sort(function(a,b){return a.rawDate>b.rawDate?1:-1;});
     for(var j=0;j<entries.length;j++){
       var dc=entries[j].day.toLowerCase(),st=getStatus(name,entries[j].rawDate,svc),stIcon=st==='remplacer'?' ⚠️':(st==='indisponible'?' ❌':''),stStyle=st==='remplacer'?' style="background:#FED7AA;border-color:#F97316;"':(st==='indisponible'?' style="background:#FECACA;border-color:#EF4444;"':'');
@@ -771,28 +814,33 @@ function openPanel(name){
 }
 function closePanel(){document.getElementById('overlay').classList.remove('open');document.getElementById('panel').classList.remove('open');}
 
-// ===== SMART REPLACEMENT SUGGESTIONS =====
+// ===== SMART REPLACEMENT SUGGESTIONS (filtrés par service) =====
 function getSuggestedReplacements(absentPerson, date, service){
-  // Find all persons NOT already scheduled on this date
   var scheduledOnDate=datePersonsMap[date]?datePersonsMap[date].persons:[];
-  var candidates=[];
   var allPersons=Object.keys(personMap);
+  var maxServices=Math.max.apply(null,allPersons.map(function(pp){return personMap[pp]?personMap[pp].total:0;}));
+  // 1) Personnes qui connaissent CE service (ont déjà fait ce service dans l'historique)
+  var knowsService=[], doesNotKnow=[];
   for(var i=0;i<allPersons.length;i++){
     var p=allPersons[i];
     if(p===absentPerson) continue;
-    if(scheduledOnDate.indexOf(p)>=0) continue; // already busy
-    if(getStatus(p,date,'')!=='normal'&&getStatus(p,date,service)==='indisponible') continue;
-    // Score: same service experience is top priority
-    var score=0;
+    if(scheduledOnDate.indexOf(p)>=0) continue; // déjà occupé ce jour
+    if(getStatus(p,date,service)==='indisponible') continue; // marqué indispo
     var info=personMap[p];
-    if(info.services[service]) score+=10; // knows this service
-    // Fewer total services = more available
-    var maxServices=Math.max.apply(null,allPersons.map(function(pp){return personMap[pp]?personMap[pp].total:0;}));
-    score+=Math.round((1-(info.total/maxServices))*5);
-    candidates.push({name:p,score:score,knowsService:!!info.services[service],total:info.total});
+    var score=Math.round((1-(info.total/maxServices))*5); // équilibrage charge
+    if(info.services[service]){
+      score+=10;
+      knowsService.push({name:p,score:score,knowsService:true,total:info.total});
+    } else {
+      doesNotKnow.push({name:p,score:score,knowsService:false,total:info.total});
+    }
   }
-  candidates.sort(function(a,b){return b.score-a.score;});
-  return candidates.slice(0,5);
+  knowsService.sort(function(a,b){return b.score-a.score;});
+  doesNotKnow.sort(function(a,b){return b.score-a.score;});
+  // Retourner d'abord ceux qui connaissent le service, puis les autres si pas assez
+  var results=knowsService.slice(0,5);
+  if(results.length<3) results=results.concat(doesNotKnow.slice(0,5-results.length));
+  return results;
 }
 
 // ===== POPUP =====
@@ -802,7 +850,7 @@ function buildWAMessage(person,service,dateDisplay,status){var statusText=status
 function openPopup(person,date,service){
   popupCtx={person:person,date:date,service:service};
   document.getElementById('popupName').textContent=person;
-  document.getElementById('popupService').textContent=service;
+  document.getElementById('popupService').innerHTML=svcLabel(service);
   document.getElementById('popupDateInfo').textContent=getDateDisplay(date);
   var st=getStatus(person,date,service),cur=document.getElementById('popupCurrent');
   if(st==='remplacer') cur.innerHTML='<span class="popup-current remplacer">⚠️ À remplacer</span>';
@@ -810,35 +858,60 @@ function openPopup(person,date,service){
   else cur.innerHTML='<span class="popup-current normal">✅ Disponible</span>';
   document.getElementById('waSection').style.display='none';
   document.getElementById('replBox').style.display='none';
+  document.getElementById('periodeBox').style.display='none';
+  document.getElementById('periode-result').style.display='none';
   document.getElementById('popupOverlay').classList.add('open');
 }
 function closePopup(){document.getElementById('popupOverlay').classList.remove('open');popupCtx=null;}
 
 function applyStatus(st){
   if(!popupCtx)return;
-  setStatus(popupCtx.person,popupCtx.date,popupCtx.service,st);
-  var cur=document.getElementById('popupCurrent');
-  if(st==='remplacer') cur.innerHTML='<span class="popup-current remplacer">⚠️ À remplacer</span>';
-  else if(st==='indisponible') cur.innerHTML='<span class="popup-current indisponible">❌ Indisponible</span>';
-  else cur.innerHTML='<span class="popup-current normal">✅ Disponible</span>';
+  var periodeBox=document.getElementById('periodeBox');
   var waSection=document.getElementById('waSection');
   var replBox=document.getElementById('replBox');
-  if(st!=='normal'){
+
+  if(st==='indisponible'){
+    // Afficher le sélecteur de période
+    periodeBox.style.display='block';
+    waSection.style.display='none';
+    replBox.style.display='none';
+    document.getElementById('periode-result').style.display='none';
+    // Pré-remplir avec la date du service cliqué
+    document.getElementById('periodeDebut').value=popupCtx.date;
+    document.getElementById('periodeFin').value=popupCtx.date;
+    // Mettre à jour l'affichage du statut courant
+    var cur=document.getElementById('popupCurrent');
+    cur.innerHTML='<span class="popup-current indisponible">❌ Indisponible</span>';
+    return; // on attend que l'utilisateur applique la période
+  }
+
+  setStatus(popupCtx.person,popupCtx.date,popupCtx.service,st);
+  periodeBox.style.display='none';
+  var cur=document.getElementById('popupCurrent');
+  if(st==='remplacer') cur.innerHTML='<span class="popup-current remplacer">⚠️ À remplacer</span>';
+  else cur.innerHTML='<span class="popup-current normal">✅ Disponible</span>';
+
+  if(st==='remplacer'){
     waSection.style.display='block';
     document.getElementById('waMsg').value=buildWAMessage(popupCtx.person,popupCtx.service,getDateDisplay(popupCtx.date),st);
-    // Show replacement suggestions
+    // Remplaçants filtrés par service
     var suggestions=getSuggestedReplacements(popupCtx.person,popupCtx.date,popupCtx.service);
     replBox.style.display='block';
     document.getElementById('replCount').textContent=suggestions.length;
+    var knowCount=suggestions.filter(function(s){return s.knowsService;}).length;
     var chipsHtml='';
     if(!suggestions.length){
-      chipsHtml='<div class="no-replacement">Aucun remplaçant disponible trouvé</div>';
+      chipsHtml='<div class="no-replacement">Aucun remplaçant disponible pour ce service</div>';
     } else {
+      // Séparateur si on a les deux catégories
+      var shownKnow=false,shownOther=false;
       for(var i=0;i<suggestions.length;i++){
         var s=suggestions[i];
-        chipsHtml+='<div class="replacement-chip" data-repl="'+esc(s.name)+'" title="'+esc(s.name)+' — '+s.total+' services au total'+(s.knowsService?' — Connaît ce service':'')+'">'+
+        if(s.knowsService && !shownKnow){shownKnow=true;chipsHtml+='<div style="width:100%;font-size:10px;font-weight:700;color:#0369A1;text-transform:uppercase;margin:4px 0 2px;">⭐ Connaît '+esc(popupCtx.service)+'</div>';}
+        if(!s.knowsService && !shownOther && shownKnow){shownOther=true;chipsHtml+='<div style="width:100%;font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin:6px 0 2px;">Autres disponibles</div>';}
+        chipsHtml+='<div class="replacement-chip" data-repl="'+esc(s.name)+'" title="'+esc(s.name)+' — '+s.total+' services'+(s.knowsService?' — Connaît ce service':'')+'">'+
           (s.knowsService?'⭐ ':'')+esc(s.name)+
-          '<span class="repl-score">+'+s.score+'</span>'+
+          '<span class="repl-score">'+s.total+' svc</span>'+
         '</div>';
       }
     }
@@ -846,6 +919,39 @@ function applyStatus(st){
   } else {
     waSection.style.display='none';
     replBox.style.display='none';
+  }
+  renderPlanning();
+  if(currentTab==='myplan') renderMyPlan(document.getElementById('myPlanSelect').value);
+  if(document.getElementById('panel').classList.contains('open')) openPanel(document.getElementById('panelName').textContent);
+}
+
+// ===== APPLIQUER PÉRIODE INDISPONIBILITE =====
+function appliquerPeriode(){
+  if(!popupCtx) return;
+  var debut=document.getElementById('periodeDebut').value;
+  var fin=document.getElementById('periodeFin').value;
+  if(!debut||!fin){alert('Veuillez sélectionner une date de début et de fin.');return;}
+  if(debut>fin){alert('La date de fin doit être après la date de début.');return;}
+  // Trouver toutes les dates du planning dans la période
+  var affected=[];
+  for(var i=0;i<RAW_DATA.length;i++){
+    var d=RAW_DATA[i];
+    var persons=parsePersons(d.person);
+    if(persons.indexOf(popupCtx.person)>=0 && d.date>=debut && d.date<=fin){
+      setStatus(popupCtx.person,d.date,d.service,'indisponible');
+      affected.push({display:d.date_display,service:d.service});
+    }
+  }
+  // Afficher le résultat
+  var resultEl=document.getElementById('periode-result');
+  resultEl.style.display='block';
+  if(!affected.length){
+    resultEl.innerHTML='<strong>ℹ️ Aucun service trouvé</strong>Aucun service de '+esc(popupCtx.person)+' dans cette période.';
+  } else {
+    var html='<strong>❌ '+affected.length+' service'+(affected.length>1?'s':'')+' marqué'+(affected.length>1?'s':'')+' indisponible'+(affected.length>1?'s':'')+'</strong><div class="periode-affected-list">';
+    for(var i=0;i<affected.length;i++) html+='<div class="periode-affected-item">'+svcIcon(affected[i].service)+' '+esc(affected[i].display)+' — '+esc(affected[i].service)+'</div>';
+    html+='</div>';
+    resultEl.innerHTML=html;
   }
   renderPlanning();
   if(currentTab==='myplan') renderMyPlan(document.getElementById('myPlanSelect').value);
@@ -1068,6 +1174,7 @@ document.addEventListener('click',function(e){
   if(e.target.id==='btnRemplacer'){applyStatus('remplacer');return;}
   if(e.target.id==='btnIndisponible'){applyStatus('indisponible');return;}
   if(e.target.id==='btnNormal'){applyStatus('normal');return;}
+  if(e.target.id==='btnAppliquerPeriode'){appliquerPeriode();return;}
   if(e.target.id==='btnSendWA'||e.target.closest('#btnSendWA')){sendWhatsApp();return;}
   if(e.target.id==='popupCancel'||e.target.closest('#popupCancel')){closePopup();return;}
   if(e.target.id==='popupOverlay'&&e.target===document.getElementById('popupOverlay')){closePopup();return;}
