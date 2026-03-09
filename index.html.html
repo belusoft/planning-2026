@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Planning 2026">
+<meta name="theme-color" content="#7C3AED">
+<title>Planning Sono &amp; Accueil 2026</title>
+<style>
+/* ===== CSS VARIABLES & DARK MODE ===== */
+:root {
+  --bg-gradient: linear-gradient(135deg,#5B21B6 0%,#7C3AED 40%,#4C1D95 100%);
+  --accent: #38BDF8;
+  --accent2: #9333EA;
+  --card-bg: rgba(255,255,255,0.93);
+  --card-border: #38BDF8;
+  --text: #1a1a2e;
+  --text-light: #6D28D9;
+  --chip-bg: #EDE9FE;
+  --chip-border: #7DD3FC;
+  --badge-bg: #BAE6FD;
+  --month-pill: #6B21A8;
+  --date-badge-bg: #BAE6FD;
+  --date-badge-sam: #A7F3D0;
+  --date-badge-mer: #FDE68A;
+  --row-alt: rgba(240,249,255,0.5);
+  --row-border: rgba(56,189,248,0.25);
+  --cell-border: rgba(56,189,248,0.2);
+  --service-label: #6D28D9;
+  --panel-bg: #F5F3FF;
+  --panel-header: #6B21A8;
+  --input-bg: rgba(255,255,255,0.95);
+  --stat-bar-bg: rgba(255,255,255,0.15);
+  --stat-bar-fill: #38BDF8;
+  --today-ring: #FBBF24;
+  --header-color: #fff;
+  --header-sub: #C4B5FD;
+  --tab-bg: rgba(255,255,255,0.12);
+  --tab-border: rgba(56,189,248,0.5);
+  --empty-color: #C4B5FD;
+  --toggle-track: rgba(255,255,255,0.2);
+  --btn-admin-bg: rgba(255,255,255,0.15);
+  --btn-admin-border: rgba(255,255,255,0.3);
+  --btn-admin-color: #C4B5FD;
+  --filter-bg: rgba(255,255,255,0.95);
+  --filter-border: #38BDF8;
+  --filter-color: #1a1a2e;
+}
+[data-theme="dark"] {
+  --bg-gradient: linear-gradient(135deg,#0f0a1e 0%,#1a0a3e 40%,#0a0a1e 100%);
+  --card-bg: rgba(30,20,60,0.95);
+  --card-border: #6D28D9;
+  --text: #e8e0ff;
+  --text-light: #a78bfa;
+  --chip-bg: #2d1b5e;
+  --chip-border: #6D28D9;
+  --badge-bg: #1e2a4a;
+  --month-pill: #2d1b5e;
+  --date-badge-bg: #1e2a4a;
+  --date-badge-sam: #1e3a2a;
+  --date-badge-mer: #3a2a0a;
+  --row-alt: rgba(109,40,217,0.08);
+  --row-border: rgba(109,40,217,0.3);
+  --cell-border: rgba(109,40,217,0.2);
+  --service-label: #a78bfa;
+  --panel-bg: #120a30;
+  --panel-header: #2d1b5e;
+  --input-bg: rgba(30,20,60,0.95);
+  --stat-bar-bg: rgba(109,40,217,0.2);
+  --stat-bar-fill: #9333EA;
+  --header-color: #e8e0ff;
+  --header-sub: #a78bfa;
+  --tab-bg: rgba(109,40,217,0.2);
+  --tab-border: rgba(109,40,217,0.5);
+  --empty-color: #a78bfa;
+  --toggle-track: rgba(109,40,217,0.3);
+  --btn-admin-bg: rgba(109,40,217,0.2);
+  --btn-admin-border: rgba(109,40,217,0.4);
+  --btn-admin-color: #a78bfa;
+  --filter-bg: rgba(30,20,60,0.95);
+  --filter-border: #6D28D9;
+  --filter-color: #e8e0ff;
+}
+
+/* ===== RESET & BASE ===== */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{height:100%;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;
+  background:var(--bg-gradient);
+  min-height:100vh;min-height:-webkit-fill-available;
+  color:var(--text);overflow-x:hidden;
+  transition:background 0.3s ease;
+}
+.app{max-width:900px;margin:0 auto;padding:0 12px 80px;}
+
+/* ===== HEADER ===== */
+header{padding:20px 0 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.header-left{flex:1;}
+header h1{font-size:22px;font-weight:800;color:var(--header-color);letter-spacing:-0.5px;line-height:1.2;}
+header h1 span{color:#7DD3FC;}
+header p{color:var(--header-sub);font-size:12px;margin-top:3px;}
+.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+
+/* DARK MODE TOGGLE */
+.dark-toggle{
+  background:var(--toggle-track);border:1.5px solid rgba(255,255,255,0.3);
+  border-radius:20px;padding:5px 10px;cursor:pointer;
+  font-size:18px;color:#fff;display:flex;align-items:center;gap:4px;
+  transition:all 0.2s ease;
+  -webkit-appearance:none;outline:none;
+}
+.dark-toggle:active{transform:scale(0.95);}
+
+/* MON PLANNING TOGGLE */
+.myplan-toggle-wrap{display:flex;align-items:center;gap:6px;}
+.myplan-label{font-size:11px;color:var(--header-sub);font-weight:600;}
+
+/* ===== TABS ===== */
+.tabs{display:flex;gap:6px;justify-content:center;margin:12px 0 16px;flex-wrap:wrap;}
+.tab-btn{
+  background:var(--tab-bg);border:2px solid var(--tab-border);
+  color:#fff;padding:8px 14px;border-radius:50px;cursor:pointer;
+  font-family:inherit;font-size:12px;font-weight:500;-webkit-appearance:none;
+  transition:all 0.2s;
+}
+.tab-btn.active{background:#38BDF8;border-color:#38BDF8;color:#0f0f14;font-weight:700;}
+
+/* ===== FILTERS ===== */
+.filters{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:16px;}
+.filter-select,.filter-btn,.search-input{
+  background:var(--filter-bg);border:2px solid var(--filter-border);
+  border-radius:10px;padding:7px 12px;font-family:inherit;
+  font-size:13px;font-weight:500;color:var(--filter-color);
+  -webkit-appearance:none;appearance:none;outline:none;
+}
+.filter-btn.active{background:#38BDF8;color:#0f0f14;font-weight:700;border-color:#38BDF8;}
+.search-input{width:200px;}
+.person-select-filter{width:180px;font-size:12px;}
+
+/* ===== MY PLANNING BANNER ===== */
+.myplan-banner{
+  background:linear-gradient(135deg,rgba(56,189,248,0.2),rgba(147,51,234,0.2));
+  border:2px solid var(--accent);border-radius:14px;
+  padding:12px 16px;margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.myplan-banner-icon{font-size:22px;}
+.myplan-banner-text{flex:1;}
+.myplan-banner-title{font-size:14px;font-weight:700;color:#fff;}
+.myplan-banner-sub{font-size:11px;color:var(--header-sub);margin-top:2px;}
+
+/* ===== PLANNING ===== */
+.month-divider{text-align:center;margin:20px 0 12px;}
+.month-divider span{display:inline-block;font-size:15px;font-weight:700;color:#fff;background:var(--month-pill);padding:5px 20px;border-radius:50px;border:2px solid var(--accent);}
+.date-section{margin-bottom:14px;position:relative;}
+.date-section.today-section{
+  outline:2.5px solid var(--today-ring);
+  outline-offset:3px;border-radius:18px;
+}
+.today-label{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:var(--today-ring);color:#0f0f14;font-size:10px;font-weight:800;
+  padding:2px 10px;border-radius:20px;white-space:nowrap;z-index:2;
+}
+.date-header{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.date-badge{padding:4px 14px;border-radius:50px;font-weight:700;font-size:12px;color:var(--text);border:2px solid var(--accent);white-space:nowrap;background:var(--date-badge-bg);}
+.date-badge.samedi{background:var(--date-badge-sam);}
+.date-badge.mercredi{background:var(--date-badge-mer);}
+.date-line{flex:1;height:2px;background:var(--accent);border-radius:2px;opacity:0.5;}
+.services-grid{background:var(--card-bg);border:2px solid var(--card-border);border-radius:14px;overflow:hidden;}
+.service-row{display:flex;border-bottom:1px solid var(--row-border);}
+.service-row:last-child{border-bottom:none;}
+.service-row:nth-child(odd){background:var(--row-alt);}
+.service-cell{flex:1;padding:8px 11px;border-right:1px solid var(--cell-border);display:flex;flex-direction:column;gap:4px;}
+.service-cell:last-child{border-right:none;}
+.service-label{font-size:10px;font-weight:700;color:var(--service-label);text-transform:uppercase;letter-spacing:0.4px;}
+.service-persons{display:flex;flex-wrap:wrap;gap:4px;}
+.person-chip{background:var(--chip-bg);border:1.5px solid var(--chip-border);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:500;color:var(--text);cursor:pointer;white-space:nowrap;transition:transform 0.1s;}
+.person-chip:active{transform:scale(0.96);}
+.person-chip.status-remplacer{background:#FED7AA;border-color:#F97316;color:#7C2D12;font-weight:700;}
+.person-chip.status-indisponible{background:#FECACA;border-color:#EF4444;color:#7F1D1D;font-weight:700;text-decoration:line-through;}
+.person-chip.highlighted{background:rgba(56,189,248,0.25);border-color:#38BDF8;font-weight:700;}
+
+/* ===== PERSONS GRID ===== */
+.persons-grid{display:flex;flex-wrap:wrap;gap:10px;}
+.person-card{background:var(--card-bg);border:2px solid var(--card-border);border-radius:12px;padding:12px;cursor:pointer;width:calc(50% - 5px);transition:transform 0.15s,box-shadow 0.15s;}
+.person-card:active{transform:scale(0.98);}
+.person-name{font-weight:600;font-size:13px;color:var(--text);margin-bottom:6px;line-height:1.3;}
+.person-stats{display:flex;flex-wrap:wrap;gap:4px;}
+.stat-badge{background:var(--badge-bg);border:1px solid var(--card-border);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:600;color:#0369A1;}
+[data-theme="dark"] .stat-badge{color:#7DD3FC;}
+
+/* ===== PANEL ===== */
+.overlay{display:none;position:fixed;inset:0;background:rgba(76,29,149,0.55);z-index:100;}
+.overlay.open{display:block;}
+.panel{position:fixed;top:0;right:0;width:min(400px,100vw);height:100%;height:-webkit-fill-available;background:var(--panel-bg);border-left:3px solid var(--accent);z-index:101;overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(100%);transition:transform 0.3s ease;}
+.panel.open{transform:translateX(0);}
+.panel-hdr{background:var(--panel-header);padding:18px 16px 14px;position:sticky;top:0;border-bottom:2px solid var(--accent);}
+.panel-name{font-size:17px;font-weight:800;color:#fff;padding-right:36px;margin-bottom:7px;line-height:1.3;}
+.panel-stats{display:flex;flex-wrap:wrap;gap:5px;}
+.panel-stat{background:rgba(56,189,248,0.2);border:1px solid var(--accent);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;color:#BAE6FD;}
+.panel-close{position:absolute;top:12px;right:12px;width:32px;height:32px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#fff;-webkit-appearance:none;}
+.panel-body{padding:14px;}
+.svc-group{margin-bottom:12px;}
+.svc-group-title{font-size:11px;font-weight:700;color:var(--service-label);text-transform:uppercase;letter-spacing:0.5px;padding:4px 10px;background:rgba(109,40,217,0.1);border-left:3px solid #9333EA;border-radius:0 6px 6px 0;margin-bottom:5px;}
+.date-entry{display:flex;align-items:center;gap:8px;padding:6px 10px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(56,189,248,0.3);border-radius:8px;margin-bottom:4px;font-size:12px;color:var(--text);font-weight:500;}
+[data-theme="dark"] .date-entry{background:rgba(109,40,217,0.1);}
+.day-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.day-dot.mardi{background:#38BDF8;}
+.day-dot.samedi{background:#34D399;}
+.day-dot.mercredi{background:#FBBF24;}
+
+/* ===== POPUP ===== */
+.popup-overlay{display:none;position:fixed;inset:0;background:rgba(76,29,149,0.7);z-index:200;align-items:center;justify-content:center;}
+.popup-overlay.open{display:flex;}
+.popup-box{background:var(--card-bg);border:3px solid var(--accent);border-radius:20px;padding:20px 16px 16px;width:calc(100% - 40px);max-width:380px;animation:popIn 0.22s ease;max-height:90vh;overflow-y:auto;}
+@keyframes popIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
+.popup-title{font-size:10px;font-weight:700;color:var(--service-label);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:3px;}
+.popup-person{font-size:16px;font-weight:800;color:var(--text);margin-bottom:2px;line-height:1.3;}
+.popup-service{font-size:12px;color:var(--service-label);margin-bottom:3px;font-weight:500;}
+.popup-date-info{font-size:11px;color:#888;margin-bottom:12px;}
+.popup-current-row{text-align:center;margin-bottom:14px;}
+.popup-current{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;}
+.popup-current.normal{background:#EDE9FE;color:#6D28D9;border:1.5px solid #9333EA;}
+.popup-current.remplacer{background:#FED7AA;color:#92400E;border:1.5px solid #F97316;}
+.popup-current.indisponible{background:#FECACA;color:#991B1B;border:1.5px solid #EF4444;}
+.popup-section-label{font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:7px;}
+.popup-status-btns{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.popup-btn{padding:11px 14px;border-radius:12px;border:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px;-webkit-appearance:none;transition:opacity 0.15s;}
+.popup-btn:active{opacity:0.7;}
+.btn-remplacer{background:#FED7AA;color:#7C2D12;border:2px solid #F97316;}
+.btn-indisponible{background:#FECACA;color:#7F1D1D;border:2px solid #EF4444;}
+.btn-normal{background:#D1FAE5;color:#064E3B;border:2px solid #10B981;}
+.btn-icon{font-size:18px;}
+.btn-text{display:flex;flex-direction:column;}
+.btn-text span{font-size:13px;font-weight:700;}
+.btn-text small{font-size:11px;font-weight:400;opacity:0.75;}
+
+/* ===== REPLACEMENTS SUGGESTIONS ===== */
+.replacements-box{
+  border-top:2px dashed rgba(56,189,248,0.4);padding-top:12px;margin-bottom:10px;
+}
+.replacements-title{font-size:11px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.replacements-title span{background:#38BDF8;color:#0f0f14;padding:2px 8px;border-radius:20px;font-size:10px;}
+.replacement-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#E0F9FF;border:1.5px solid #38BDF8;border-radius:20px;
+  padding:5px 12px;font-size:12px;font-weight:600;color:#0369A1;
+  cursor:pointer;margin:3px;transition:all 0.15s;
+}
+.replacement-chip:active{transform:scale(0.97);}
+.replacement-chip .repl-score{font-size:10px;background:#38BDF8;color:#0f0f14;padding:1px 5px;border-radius:10px;font-weight:700;}
+[data-theme="dark"] .replacement-chip{background:#1e2a4a;color:#7DD3FC;border-color:#38BDF8;}
+.no-replacement{font-size:12px;color:#9CA3AF;padding:8px 0;font-style:italic;}
+.repl-chips-wrap{display:flex;flex-wrap:wrap;}
+
+/* ===== WA SECTION ===== */
+.wa-section{border-top:2px dashed rgba(56,189,248,0.3);padding-top:12px;margin-bottom:8px;}
+.wa-section-label{font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:7px;}
+.wa-phone-row{display:flex;gap:8px;margin-bottom:7px;align-items:center;}
+.wa-phone-input{flex:1;padding:9px 12px;border:2px solid var(--accent);border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);background:var(--input-bg);outline:none;}
+.wa-msg-area{width:100%;padding:9px 12px;border:2px solid var(--accent);border-radius:10px;font-family:inherit;font-size:12px;color:var(--text);background:var(--input-bg);outline:none;resize:none;min-height:70px;margin-bottom:7px;}
+.btn-whatsapp{width:100%;padding:12px;border-radius:12px;border:none;background:#25D366;color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.wa-note{font-size:11px;color:#9CA3AF;text-align:center;margin-top:5px;}
+.popup-cancel{display:block;width:100%;background:none;border:none;font-family:inherit;font-size:13px;color:#6B7280;cursor:pointer;padding:7px;text-align:center;-webkit-appearance:none;margin-top:3px;}
+
+/* ===== STATS TAB ===== */
+.stats-container{padding:4px 0;}
+.stats-section{margin-bottom:20px;}
+.stats-section-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.stats-section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.2);}
+.stats-cards{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.stat-card{background:var(--card-bg);border:2px solid var(--card-border);border-radius:14px;padding:14px;flex:1;min-width:130px;text-align:center;}
+.stat-card-num{font-size:28px;font-weight:800;color:var(--accent2);line-height:1;}
+.stat-card-label{font-size:11px;color:var(--text-light);font-weight:600;margin-top:4px;}
+.stat-card-sub{font-size:10px;color:#9CA3AF;margin-top:2px;}
+.chart-bar-wrap{background:var(--card-bg);border:2px solid var(--card-border);border-radius:14px;overflow:hidden;margin-bottom:12px;}
+.chart-bar-row{display:flex;align-items:center;gap:10px;padding:7px 12px;border-bottom:1px solid var(--row-border);}
+.chart-bar-row:last-child{border-bottom:none;}
+.chart-bar-name{width:130px;font-size:11px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0;}
+.chart-bar-track{flex:1;background:var(--stat-bar-bg);border-radius:20px;height:10px;overflow:hidden;}
+.chart-bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#38BDF8,#9333EA);transition:width 0.6s ease;}
+.chart-bar-val{font-size:11px;font-weight:700;color:var(--text-light);width:22px;text-align:right;flex-shrink:0;}
+.service-stat-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.service-stat-pill{background:var(--card-bg);border:2px solid var(--card-border);border-radius:12px;padding:8px 14px;flex:1;min-width:140px;}
+.ssp-label{font-size:10px;font-weight:700;color:var(--service-label);text-transform:uppercase;margin-bottom:4px;}
+.ssp-value{font-size:20px;font-weight:800;color:var(--text);}
+.ssp-sub{font-size:10px;color:#9CA3AF;}
+.day-pie-wrap{display:flex;gap:10px;flex-wrap:wrap;}
+.day-pie{background:var(--card-bg);border:2px solid var(--card-border);border-radius:14px;padding:12px 16px;flex:1;min-width:120px;text-align:center;}
+.day-pie-num{font-size:24px;font-weight:800;}
+.day-pie-label{font-size:11px;font-weight:600;color:var(--text-light);margin-top:3px;}
+.day-pie-num.mardi{color:#38BDF8;}
+.day-pie-num.samedi{color:#34D399;}
+.day-pie-num.mercredi{color:#FBBF24;}
+
+/* ===== DISPONIBILITES ===== */
+.dispo-tab{padding:0;}
+.dispo-closed{background:rgba(255,255,255,0.15);border:2px dashed rgba(255,255,255,0.4);border-radius:16px;padding:32px 20px;text-align:center;margin-bottom:20px;}
+.dispo-closed-icon{font-size:40px;margin-bottom:12px;}
+.dispo-closed-title{font-size:18px;font-weight:800;color:#fff;margin-bottom:8px;}
+.dispo-closed-text{font-size:13px;color:var(--header-sub);line-height:1.5;}
+.dispo-closed-dates{display:inline-block;background:#38BDF8;color:#0f0f14;font-weight:700;font-size:13px;padding:5px 16px;border-radius:20px;margin-top:12px;}
+.dispo-form-wrap{background:var(--card-bg);border:2px solid var(--accent);border-radius:16px;overflow:hidden;}
+.dispo-form-header{background:linear-gradient(135deg,#6B21A8,#7C3AED);padding:16px 16px 12px;border-bottom:2px solid var(--accent);}
+.dispo-form-title{font-size:16px;font-weight:800;color:#fff;margin-bottom:3px;}
+.dispo-form-sub{font-size:12px;color:#C4B5FD;}
+.dispo-deadline{display:inline-block;background:rgba(56,189,248,0.25);border:1px solid #38BDF8;color:#7DD3FC;font-size:11px;font-weight:700;padding:2px 12px;border-radius:20px;margin-top:7px;}
+.dispo-form-body{padding:16px;}
+.dispo-field{margin-bottom:16px;}
+.dispo-label{font-size:11px;font-weight:700;color:var(--service-label);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;display:block;}
+.dispo-select{width:100%;padding:11px 14px;border:2px solid var(--accent);border-radius:12px;font-family:inherit;font-size:14px;font-weight:600;color:var(--text);background:var(--input-bg);-webkit-appearance:none;appearance:none;outline:none;cursor:pointer;}
+.dates-grid{display:flex;flex-direction:column;gap:9px;}
+.date-dispo-row{background:#F8F5FF;border:2px solid #E0D4FF;border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;transition:all 0.2s;}
+[data-theme="dark"] .date-dispo-row{background:#1e1040;border-color:#4c2a80;}
+.date-dispo-row.available{background:#F0FDF4;border-color:#34D399;}
+.date-dispo-row.unavailable{background:#FEF2F2;border-color:#EF4444;}
+.date-dispo-day-badge{background:#BAE6FD;border:1.5px solid #38BDF8;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:700;color:#0369A1;flex-shrink:0;}
+.date-dispo-day-badge.samedi{background:#A7F3D0;border-color:#34D399;color:#065F46;}
+.date-dispo-date{flex:1;font-size:12px;font-weight:600;color:var(--text);}
+.dispo-toggle{display:flex;border:2px solid #E0D4FF;border-radius:30px;overflow:hidden;flex-shrink:0;}
+.dispo-toggle-btn{padding:5px 12px;font-family:inherit;font-size:12px;font-weight:700;border:none;cursor:pointer;-webkit-appearance:none;transition:all 0.15s;background:#fff;color:#9CA3AF;}
+.dispo-toggle-btn.yes.selected{background:#22C55E;color:#fff;}
+.dispo-toggle-btn.no.selected{background:#EF4444;color:#fff;}
+.prog-section{background:#FEF9FF;border:2px solid #C4B5FD;border-radius:12px;padding:12px 14px;margin-top:3px;}
+[data-theme="dark"] .prog-section{background:#1e1040;border-color:#6D28D9;}
+.prog-title{font-size:13px;font-weight:700;color:var(--service-label);margin-bottom:9px;}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.prog-row:last-child{margin-bottom:0;}
+.prog-date{flex:1;font-size:12px;color:var(--text);font-weight:500;}
+.prog-toggle{display:flex;border:2px solid #C4B5FD;border-radius:30px;overflow:hidden;}
+.prog-toggle-btn{padding:5px 12px;font-family:inherit;font-size:12px;font-weight:700;border:none;cursor:pointer;-webkit-appearance:none;transition:all 0.15s;background:#fff;color:#9CA3AF;}
+.prog-toggle-btn.yes.selected{background:#9333EA;color:#fff;}
+.prog-toggle-btn.no.selected{background:#E5E7EB;color:#374151;}
+.dispo-submit-wrap{margin-top:18px;}
+.btn-submit-dispo{width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#6B21A8,#38BDF8);color:#fff;font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;-webkit-appearance:none;transition:opacity 0.15s;}
+.btn-submit-dispo:active{opacity:0.8;}
+.dispo-note{font-size:11px;color:#9CA3AF;text-align:center;margin-top:7px;}
+.dispo-success{background:#F0FDF4;border:2px solid #34D399;border-radius:16px;padding:28px 20px;text-align:center;display:none;}
+[data-theme="dark"] .dispo-success{background:#0a1e12;}
+.dispo-success.show{display:block;}
+.dispo-success-icon{font-size:48px;margin-bottom:12px;}
+.dispo-success-title{font-size:18px;font-weight:800;color:#065F46;margin-bottom:7px;}
+.dispo-success-text{font-size:13px;color:#047857;margin-bottom:14px;}
+.btn-new-dispo{background:#22C55E;color:#fff;border:none;border-radius:10px;padding:10px 22px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;}
+.admin-toggle{text-align:center;margin-top:20px;}
+.btn-admin{background:var(--btn-admin-bg);border:1px solid var(--btn-admin-border);color:var(--btn-admin-color);border-radius:8px;padding:7px 16px;font-family:inherit;font-size:12px;cursor:pointer;}
+.admin-panel{background:var(--card-bg);border:2px solid var(--accent);border-radius:14px;margin-top:12px;overflow:hidden;display:none;}
+.admin-panel.open{display:block;}
+.admin-header{background:#0F172A;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+.admin-title{color:#fff;font-size:14px;font-weight:700;}
+.btn-export{background:#22C55E;color:#fff;border:none;border-radius:8px;padding:7px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;}
+.admin-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.admin-table{width:100%;border-collapse:collapse;font-size:12px;}
+.admin-table th{background:#EDE9FE;color:#6D28D9;font-weight:700;padding:7px 10px;text-align:left;white-space:nowrap;border-bottom:2px solid #C4B5FD;}
+.admin-table td{padding:6px 10px;border-bottom:1px solid #E5E7EB;color:var(--text);white-space:nowrap;}
+.admin-table tr:nth-child(even) td{background:var(--row-alt);}
+.badge-dispo{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;}
+.badge-oui{background:#D1FAE5;color:#065F46;}
+.badge-non{background:#FEE2E2;color:#991B1B;}
+.admin-empty{padding:20px;text-align:center;color:#9CA3AF;font-size:13px;}
+.date-dispo-row.manquante{animation:shake 0.4s ease 5;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* ===== MISC ===== */
+.empty{text-align:center;color:var(--empty-color);padding:50px 20px;font-size:14px;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:#38BDF8;border-radius:2px;}
+@media(max-width:480px){
+  .service-row{flex-direction:column;}
+  .service-cell{border-right:none;border-bottom:1px solid var(--cell-border);}
+  .service-cell:last-child{border-bottom:none;}
+  .person-card{width:calc(50% - 5px);}
+  .stat-cards{gap:8px;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="header-left">
+      <h1>Planning <span>Sono &amp; Accueil</span></h1>
+      <p id="headerSub">Janvier · Février · Mars 2026</p>
+    </div>
+    <div class="header-right">
+      <button class="dark-toggle" id="darkToggle" title="Mode sombre">🌙</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-planning-btn">📅 Planning</button>
+    <button class="tab-btn" id="tab-myplan-btn">👤 Mon planning</button>
+    <button class="tab-btn" id="tab-persons-btn">👥 Personnes</button>
+    <button class="tab-btn" id="tab-stats-btn">📊 Statistiques</button>
+    <button class="tab-btn" id="tab-dispo-btn">✅ Disponibilités</button>
+  </div>
+
+  <!-- ===== PLANNING ===== -->
+  <div id="tab-planning">
+    <div class="filters">
+      <select class="filter-select" id="monthFilter">
+        <option value="">Tous les mois</option>
+        <option value="Janvier 2026">Janvier 2026</option>
+        <option value="Février 2026">Février 2026</option>
+        <option value="Mars 2026">Mars 2026</option>
+      </select>
+      <button class="filter-btn active" data-day="">Tous</button>
+      <button class="filter-btn" data-day="Mardi">Mardi</button>
+      <button class="filter-btn" data-day="Mercredi">Mercredi</button>
+      <button class="filter-btn" data-day="Samedi">Samedi</button>
+    </div>
+    <div id="planning-content"></div>
+  </div>
+
+  <!-- ===== MON PLANNING ===== -->
+  <div id="tab-myplan" style="display:none">
+    <div class="filters">
+      <select class="filter-select person-select-filter" id="myPlanSelect">
+        <option value="">-- Sélectionnez votre nom --</option>
+      </select>
+    </div>
+    <div id="myplan-banner" class="myplan-banner" style="display:none">
+      <div class="myplan-banner-icon">👤</div>
+      <div class="myplan-banner-text">
+        <div class="myplan-banner-title" id="myplan-banner-name"></div>
+        <div class="myplan-banner-sub" id="myplan-banner-sub"></div>
+      </div>
+    </div>
+    <div id="myplan-content"></div>
+  </div>
+
+  <!-- ===== PERSONNES ===== -->
+  <div id="tab-persons" style="display:none">
+    <div class="filters">
+      <input type="search" class="search-input" id="searchInput" placeholder="Rechercher...">
+    </div>
+    <div id="persons-content"></div>
+  </div>
+
+  <!-- ===== STATISTIQUES ===== -->
+  <div id="tab-stats" style="display:none">
+    <div id="stats-content" class="stats-container"></div>
+  </div>
+
+  <!-- ===== DISPONIBILITES ===== -->
+  <div id="tab-dispo" class="dispo-tab" style="display:none">
+    <div id="dispo-closed-banner" class="dispo-closed" style="display:none">
+      <div class="dispo-closed-icon">🔒</div>
+      <div class="dispo-closed-title">Questionnaire fermé</div>
+      <div class="dispo-closed-text">Le questionnaire est accessible<br>entre le <strong>20 et le 27 du mois en cours</strong>.</div>
+      <div class="dispo-closed-dates" id="dispo-next-open"></div>
+    </div>
+    <div id="dispo-form-wrap" class="dispo-form-wrap" style="display:none">
+      <div class="dispo-form-header">
+        <div class="dispo-form-title">📝 Disponibilités — <span id="dispo-month-label"></span></div>
+        <div class="dispo-form-sub">Indiquez vos disponibilités pour le mois prochain</div>
+        <div class="dispo-deadline" id="dispo-deadline-label"></div>
+      </div>
+      <div class="dispo-form-body">
+        <div class="dispo-field">
+          <label class="dispo-label" for="dispoSelect">👤 Votre nom</label>
+          <select class="dispo-select" id="dispoSelect">
+            <option value="">-- Sélectionnez votre nom --</option>
+          </select>
+        </div>
+        <div class="dispo-field" id="dispo-dates-section" style="display:none">
+          <label class="dispo-label">📅 Vos disponibilités</label>
+          <div class="dates-grid" id="dispo-dates-grid"></div>
+        </div>
+        <div class="dispo-field" id="dispo-prog-section" style="display:none">
+          <div class="prog-section">
+            <div class="prog-title">🎯 Participation au programme théocratique</div>
+            <div id="prog-dates-list"></div>
+          </div>
+        </div>
+        <div class="dispo-submit-wrap" id="dispo-submit-wrap" style="display:none">
+          <button class="btn-submit-dispo" id="btnSubmitDispo">✓ Envoyer mes disponibilités</button>
+          <div class="dispo-note">Vos réponses seront enregistrées.</div>
+        </div>
+      </div>
+    </div>
+    <div class="dispo-success" id="dispo-success">
+      <div class="dispo-success-icon">🎉</div>
+      <div class="dispo-success-title">Merci !</div>
+      <div class="dispo-success-text" id="dispo-success-text"></div>
+      <button class="btn-new-dispo" id="btnNewDispo">Nouvelle réponse</button>
+    </div>
+    <div class="admin-toggle">
+      <button class="btn-admin" id="btnToggleAdmin">⚙️ Voir les réponses collectées</button>
+    </div>
+    <div class="admin-panel" id="adminPanel">
+      <div class="admin-header">
+        <span class="admin-title">📊 Réponses collectées</span>
+        <button class="btn-export" id="btnExport">⬇️ Export CSV</button>
+      </div>
+      <div class="admin-table-wrap"><div id="admin-table-content"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL PERSONNE -->
+<div class="overlay" id="overlay"></div>
+<div class="panel" id="panel">
+  <div class="panel-hdr">
+    <div class="panel-name" id="panelName"></div>
+    <div class="panel-stats" id="panelStats"></div>
+    <button class="panel-close" id="panelClose">✕</button>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+</div>
+
+<!-- POPUP STATUT -->
+<div class="popup-overlay" id="popupOverlay">
+  <div class="popup-box" id="popupBox">
+    <div class="popup-title">Modifier le statut</div>
+    <div class="popup-person" id="popupName"></div>
+    <div class="popup-service" id="popupService"></div>
+    <div class="popup-date-info" id="popupDateInfo"></div>
+    <div class="popup-current-row"><div id="popupCurrent"></div></div>
+    <div class="popup-section-label">Changer le statut</div>
+    <div class="popup-status-btns">
+      <button class="popup-btn btn-remplacer" id="btnRemplacer">
+        <span class="btn-icon">⚠️</span>
+        <div class="btn-text"><span>À remplacer</span><small>Cherche un remplaçant</small></div>
+      </button>
+      <button class="popup-btn btn-indisponible" id="btnIndisponible">
+        <span class="btn-icon">❌</span>
+        <div class="btn-text"><span>Indisponible</span><small>Absent·e ce jour</small></div>
+      </button>
+      <button class="popup-btn btn-normal" id="btnNormal">
+        <span class="btn-icon">✓</span>
+        <div class="btn-text"><span>Disponible</span><small>Retour au statut normal</small></div>
+      </button>
+    </div>
+    <!-- REMPLACANTS SUGGERES -->
+    <div class="replacements-box" id="replBox" style="display:none">
+      <div class="replacements-title">🔍 Remplaçants suggérés <span id="replCount">0</span></div>
+      <div class="repl-chips-wrap" id="replChips"></div>
+    </div>
+    <!-- WHATSAPP -->
+    <div class="wa-section" id="waSection" style="display:none">
+      <div class="wa-section-label">📱 Envoyer un message WhatsApp</div>
+      <div class="wa-phone-row">
+        <input type="tel" class="wa-phone-input" id="waPhone" placeholder="Ex: 0612345678">
+      </div>
+      <textarea class="wa-msg-area" id="waMsg" rows="4"></textarea>
+      <button class="btn-whatsapp" id="btnSendWA">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Ouvrir WhatsApp
+      </button>
+      <div class="wa-note">WhatsApp s'ouvrira avec le message pré-rempli</div>
+    </div>
+    <button class="popup-cancel" id="popupCancel">Fermer</button>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+var RAW_DATA=[{"date": "2026-01-03", "date_display": "Samedi 3 Janvier 2026", "day": "Samedi", "service": "Audio", "person": "ZODROS Axel", "month": "Janvier 2026"}, {"date": "2026-01-03", "date_display": "Samedi 3 Janvier 2026", "day": "Samedi", "service": "Vidéo", "person": "BERGAME Luc", "month": "Janvier 2026"}, {"date": "2026-01-03", "date_display": "Samedi 3 Janvier 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "MAQUIABA Claude", "month": "Janvier 2026"}, {"date": "2026-01-03", "date_display": "Samedi 3 Janvier 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "INNOCENT Robert", "month": "Janvier 2026"}, {"date": "2026-01-03", "date_display": "Samedi 3 Janvier 2026", "day": "Samedi", "service": "Estrade", "person": "BERGAME Maïley", "month": "Janvier 2026"}, {"date": "2026-01-03", "date_display": "Samedi 3 Janvier 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "ANGERVILLE Axandre", "month": "Janvier 2026"}, {"date": "2026-01-03", "date_display": "Samedi 3 Janvier 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "SUARES Cedrick", "month": "Janvier 2026"}, {"date": "2026-01-03", "date_display": "Samedi 3 Janvier 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "RECCHIA Frédéric", "month": "Janvier 2026"}, {"date": "2026-01-03", "date_display": "Samedi 3 Janvier 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "PAPA Antoni", "month": "Janvier 2026"}, {"date": "2026-01-06", "date_display": "Mardi 6 Janvier 2026", "day": "Mardi", "service": "Audio", "person": "MBOMA Junior", "month": "Janvier 2026"}, {"date": "2026-01-06", "date_display": "Mardi 6 Janvier 2026", "day": "Mardi", "service": "Vidéo", "person": "MUHEL Mathieu", "month": "Janvier 2026"}, {"date": "2026-01-06", "date_display": "Mardi 6 Janvier 2026", "day": "Mardi", "service": "Perches - Partie 1", "person": "HOUCHAT Marc", "month": "Janvier 2026"}, {"date": "2026-01-06", "date_display": "Mardi 6 Janvier 2026", "day": "Mardi", "service": "Perches - Partie 2", "person": "BERGAME Maïley", "month": "Janvier 2026"}, {"date": "2026-01-06", "date_display": "Mardi 6 Janvier 2026", "day": "Mardi", "service": "Estrade", "person": "GASPARD Jean", "month": "Janvier 2026"}, {"date": "2026-01-06", "date_display": "Mardi 6 Janvier 2026", "day": "Mardi", "service": "Estrade - Tablette", "person": "MIATTI Yanis", "month": "Janvier 2026"}, {"date": "2026-01-06", "date_display": "Mardi 6 Janvier 2026", "day": "Mardi", "service": "Accueil - Admission Zoom", "person": "PAPA Antoni", "month": "Janvier 2026"}, {"date": "2026-01-06", "date_display": "Mardi 6 Janvier 2026", "day": "Mardi", "service": "Accueil - Ouverture", "person": "HOUCHAT Marc", "month": "Janvier 2026"}, {"date": "2026-01-06", "date_display": "Mardi 6 Janvier 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "PATIENT Clyde       BULLET Marius", "month": "Janvier 2026"}, {"date": "2026-01-10", "date_display": "Samedi 10 Janvier 2026", "day": "Samedi", "service": "Audio", "person": "POMPEU Marc", "month": "Janvier 2026"}, {"date": "2026-01-10", "date_display": "Samedi 10 Janvier 2026", "day": "Samedi", "service": "Vidéo", "person": "RECCHIA Raphaël", "month": "Janvier 2026"}, {"date": "2026-01-10", "date_display": "Samedi 10 Janvier 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "MBOMA Junior", "month": "Janvier 2026"}, {"date": "2026-01-10", "date_display": "Samedi 10 Janvier 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "BERGAME Luc", "month": "Janvier 2026"}, {"date": "2026-01-10", "date_display": "Samedi 10 Janvier 2026", "day": "Samedi", "service": "Estrade", "person": "HOUCHAT Marc", "month": "Janvier 2026"}, {"date": "2026-01-10", "date_display": "Samedi 10 Janvier 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "BERGAME Maïley", "month": "Janvier 2026"}, {"date": "2026-01-10", "date_display": "Samedi 10 Janvier 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "GOSSET Samuel", "month": "Janvier 2026"}, {"date": "2026-01-10", "date_display": "Samedi 10 Janvier 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "VAUTIER Philippe", "month": "Janvier 2026"}, {"date": "2026-01-10", "date_display": "Samedi 10 Janvier 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "MUNGULU Stivy     MALELA Bruce", "month": "Janvier 2026"}, {"date": "2026-01-14", "date_display": "Mercredi 14 Janvier 2026", "day": "Mercredi", "service": "Audio", "person": "VILSANS Thierry", "month": "Janvier 2026"}, {"date": "2026-01-14", "date_display": "Mercredi 14 Janvier 2026", "day": "Mercredi", "service": "Vidéo", "person": "MBOMA Junior", "month": "Janvier 2026"}, {"date": "2026-01-14", "date_display": "Mercredi 14 Janvier 2026", "day": "Mercredi", "service": "Perches - Partie 1", "person": "LANDEAU Sammy", "month": "Janvier 2026"}, {"date": "2026-01-14", "date_display": "Mercredi 14 Janvier 2026", "day": "Mercredi", "service": "Perches - Partie 2", "person": "BULLET Marius", "month": "Janvier 2026"}, {"date": "2026-01-14", "date_display": "Mercredi 14 Janvier 2026", "day": "Mercredi", "service": "Estrade", "person": "PAPA Antoni", "month": "Janvier 2026"}, {"date": "2026-01-14", "date_display": "Mercredi 14 Janvier 2026", "day": "Mercredi", "service": "Estrade - Tablette", "person": "GASPARD Steeven", "month": "Janvier 2026"}, {"date": "2026-01-14", "date_display": "Mercredi 14 Janvier 2026", "day": "Mercredi", "service": "Accueil - Admission Zoom", "person": "MUHEL Mathieu", "month": "Janvier 2026"}, {"date": "2026-01-14", "date_display": "Mercredi 14 Janvier 2026", "day": "Mercredi", "service": "Accueil - Ouverture", "person": "MAUZOLE Boris", "month": "Janvier 2026"}, {"date": "2026-01-14", "date_display": "Mercredi 14 Janvier 2026", "day": "Mercredi", "service": "Accueil - Auditorium", "person": "DELIN Yannick       POMPEU Joël", "month": "Janvier 2026"}, {"date": "2026-01-17", "date_display": "Samedi 17 Janvier 2026", "day": "Samedi", "service": "Audio", "person": "MBOMA Junior", "month": "Janvier 2026"}, {"date": "2026-01-17", "date_display": "Samedi 17 Janvier 2026", "day": "Samedi", "service": "Vidéo", "person": "BERGAME Luc", "month": "Janvier 2026"}, {"date": "2026-01-17", "date_display": "Samedi 17 Janvier 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "VAUTIER Philippe", "month": "Janvier 2026"}, {"date": "2026-01-17", "date_display": "Samedi 17 Janvier 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "MIATTI Yanis", "month": "Janvier 2026"}, {"date": "2026-01-17", "date_display": "Samedi 17 Janvier 2026", "day": "Samedi", "service": "Estrade", "person": "MUNGULU Stivy", "month": "Janvier 2026"}, {"date": "2026-01-17", "date_display": "Samedi 17 Janvier 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "MAUZOLE Maxime", "month": "Janvier 2026"}, {"date": "2026-01-17", "date_display": "Samedi 17 Janvier 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "POMPEU Joël", "month": "Janvier 2026"}, {"date": "2026-01-17", "date_display": "Samedi 17 Janvier 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "RECCHIA Frédéric", "month": "Janvier 2026"}, {"date": "2026-01-17", "date_display": "Samedi 17 Janvier 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "ALAND Alex        INNOCENT Robert", "month": "Janvier 2026"}, {"date": "2026-01-20", "date_display": "Mardi 20 Janvier 2026", "day": "Mardi", "service": "Audio", "person": "LANDEAU Sammy", "month": "Janvier 2026"}, {"date": "2026-01-20", "date_display": "Mardi 20 Janvier 2026", "day": "Mardi", "service": "Vidéo", "person": "ZODROS Axel", "month": "Janvier 2026"}, {"date": "2026-01-20", "date_display": "Mardi 20 Janvier 2026", "day": "Mardi", "service": "Perches - Partie 1", "person": "MAUZOLE Maxime", "month": "Janvier 2026"}, {"date": "2026-01-20", "date_display": "Mardi 20 Janvier 2026", "day": "Mardi", "service": "Perches - Partie 2", "person": "MAQUIABA Claude", "month": "Janvier 2026"}, {"date": "2026-01-20", "date_display": "Mardi 20 Janvier 2026", "day": "Mardi", "service": "Estrade", "person": "INNOCENT Robert", "month": "Janvier 2026"}, {"date": "2026-01-20", "date_display": "Mardi 20 Janvier 2026", "day": "Mardi", "service": "Estrade - Tablette", "person": "ANGERVILLE Axandre", "month": "Janvier 2026"}, {"date": "2026-01-20", "date_display": "Mardi 20 Janvier 2026", "day": "Mardi", "service": "Accueil - Admission Zoom", "person": "GASPARD Steeven", "month": "Janvier 2026"}, {"date": "2026-01-20", "date_display": "Mardi 20 Janvier 2026", "day": "Mardi", "service": "Accueil - Ouverture", "person": "ALAND Alex", "month": "Janvier 2026"}, {"date": "2026-01-20", "date_display": "Mardi 20 Janvier 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "DESERT Jean-Michel             RECCHIA Frédéric", "month": "Janvier 2026"}, {"date": "2026-01-24", "date_display": "Samedi 24 Janvier 2026", "day": "Samedi", "service": "Audio", "person": "POMPEU Marc", "month": "Janvier 2026"}, {"date": "2026-01-24", "date_display": "Samedi 24 Janvier 2026", "day": "Samedi", "service": "Vidéo", "person": "PAPA Antoni", "month": "Janvier 2026"}, {"date": "2026-01-24", "date_display": "Samedi 24 Janvier 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "VILSANS Thierry", "month": "Janvier 2026"}, {"date": "2026-01-24", "date_display": "Samedi 24 Janvier 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "HOUCHAT Marc", "month": "Janvier 2026"}, {"date": "2026-01-24", "date_display": "Samedi 24 Janvier 2026", "day": "Samedi", "service": "Estrade", "person": "RECCHIA Raphaël", "month": "Janvier 2026"}, {"date": "2026-01-24", "date_display": "Samedi 24 Janvier 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "MIATTI Yanis", "month": "Janvier 2026"}, {"date": "2026-01-24", "date_display": "Samedi 24 Janvier 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "LANDEAU Sammy", "month": "Janvier 2026"}, {"date": "2026-01-24", "date_display": "Samedi 24 Janvier 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "BERGAME Luc", "month": "Janvier 2026"}, {"date": "2026-01-24", "date_display": "Samedi 24 Janvier 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "BULLET Marius    VAUTIER Philippe", "month": "Janvier 2026"}, {"date": "2026-01-27", "date_display": "Mardi 27 Janvier 2026", "day": "Mardi", "service": "Audio", "person": "PAPA Antoni", "month": "Janvier 2026"}, {"date": "2026-01-27", "date_display": "Mardi 27 Janvier 2026", "day": "Mardi", "service": "Vidéo", "person": "POMPEU Marc", "month": "Janvier 2026"}, {"date": "2026-01-27", "date_display": "Mardi 27 Janvier 2026", "day": "Mardi", "service": "Perches - Partie 1", "person": "POMPEU Joël", "month": "Janvier 2026"}, {"date": "2026-01-27", "date_display": "Mardi 27 Janvier 2026", "day": "Mardi", "service": "Perches - Partie 2", "person": "LANDEAU Sammy", "month": "Janvier 2026"}, {"date": "2026-01-27", "date_display": "Mardi 27 Janvier 2026", "day": "Mardi", "service": "Estrade", "person": "MUNGULU Stivy", "month": "Janvier 2026"}, {"date": "2026-01-27", "date_display": "Mardi 27 Janvier 2026", "day": "Mardi", "service": "Estrade - Tablette", "person": "BERGAME Maïley", "month": "Janvier 2026"}, {"date": "2026-01-27", "date_display": "Mardi 27 Janvier 2026", "day": "Mardi", "service": "Accueil - Admission Zoom", "person": "MAUZOLE Boris", "month": "Janvier 2026"}, {"date": "2026-01-27", "date_display": "Mardi 27 Janvier 2026", "day": "Mardi", "service": "Accueil - Ouverture", "person": "MIATTI Didier", "month": "Janvier 2026"}, {"date": "2026-01-27", "date_display": "Mardi 27 Janvier 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "ALAND Alex       VILSANS Thierry", "month": "Janvier 2026"}, {"date": "2026-01-31", "date_display": "Samedi 31 Janvier 2026", "day": "Samedi", "service": "Audio", "person": "NGO Tommy", "month": "Janvier 2026"}, {"date": "2026-01-31", "date_display": "Samedi 31 Janvier 2026", "day": "Samedi", "service": "Vidéo", "person": "DELIN Yannick", "month": "Janvier 2026"}, {"date": "2026-01-31", "date_display": "Samedi 31 Janvier 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "BERGAME Luc", "month": "Janvier 2026"}, {"date": "2026-01-31", "date_display": "Samedi 31 Janvier 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "GASPARD Steeven", "month": "Janvier 2026"}, {"date": "2026-01-31", "date_display": "Samedi 31 Janvier 2026", "day": "Samedi", "service": "Estrade", "person": "LEFRAND Thierry", "month": "Janvier 2026"}, {"date": "2026-01-31", "date_display": "Samedi 31 Janvier 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "MAUZOLE Maxime", "month": "Janvier 2026"}, {"date": "2026-01-31", "date_display": "Samedi 31 Janvier 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "MAUZOLE Boris", "month": "Janvier 2026"}, {"date": "2026-01-31", "date_display": "Samedi 31 Janvier 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "GASPARD Jean", "month": "Janvier 2026"}, {"date": "2026-01-31", "date_display": "Samedi 31 Janvier 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "GOSSET Samuel       ZODROS Axel", "month": "Janvier 2026"}, {"date": "2026-02-03", "date_display": "Mardi 3 Février 2026", "day": "Mardi", "service": "Audio", "person": "ZODROS Axel", "month": "Février 2026"}, {"date": "2026-02-03", "date_display": "Mardi 3 Février 2026", "day": "Mardi", "service": "Vidéo", "person": "MBOMA Junior", "month": "Février 2026"}, {"date": "2026-02-03", "date_display": "Mardi 3 Février 2026", "day": "Mardi", "service": "Perches - Partie 1", "person": "MAUZOLE Boris", "month": "Février 2026"}, {"date": "2026-02-03", "date_display": "Mardi 3 Février 2026", "day": "Mardi", "service": "Perches - Partie 2", "person": "MALELA Bruce", "month": "Février 2026"}, {"date": "2026-02-03", "date_display": "Mardi 3 Février 2026", "day": "Mardi", "service": "Estrade", "person": "INNOCENT Robert", "month": "Février 2026"}, {"date": "2026-02-03", "date_display": "Mardi 3 Février 2026", "day": "Mardi", "service": "Estrade - Tablette", "person": "ANGERVILLE Axandre", "month": "Février 2026"}, {"date": "2026-02-03", "date_display": "Mardi 3 Février 2026", "day": "Mardi", "service": "Accueil - Admission Zoom", "person": "BERGAME Luc", "month": "Février 2026"}, {"date": "2026-02-03", "date_display": "Mardi 3 Février 2026", "day": "Mardi", "service": "Accueil - Ouverture", "person": "RECCHIA Frédéric", "month": "Février 2026"}, {"date": "2026-02-03", "date_display": "Mardi 3 Février 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "DELTA Joël", "month": "Février 2026"}, {"date": "2026-02-07", "date_display": "Samedi 7 Février 2026", "day": "Samedi", "service": "Audio", "person": "POMPEU Marc", "month": "Février 2026"}, {"date": "2026-02-07", "date_display": "Samedi 7 Février 2026", "day": "Samedi", "service": "Vidéo", "person": "RECCHIA Raphaël", "month": "Février 2026"}, {"date": "2026-02-07", "date_display": "Samedi 7 Février 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "MAQUIABA Claude - RECCHIA Frédéric", "month": "Février 2026"}, {"date": "2026-02-07", "date_display": "Samedi 7 Février 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "DELTA Joël - MBOMA Junior", "month": "Février 2026"}, {"date": "2026-02-07", "date_display": "Samedi 7 Février 2026", "day": "Samedi", "service": "Estrade", "person": "SUARES Cedrick", "month": "Février 2026"}, {"date": "2026-02-07", "date_display": "Samedi 7 Février 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "MIATTI Yanis", "month": "Février 2026"}, {"date": "2026-02-07", "date_display": "Samedi 7 Février 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "LEFRAND Thierry", "month": "Février 2026"}, {"date": "2026-02-07", "date_display": "Samedi 7 Février 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "MPOVI Tevi", "month": "Février 2026"}, {"date": "2026-02-07", "date_display": "Samedi 7 Février 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "PAPA Antoni", "month": "Février 2026"}, {"date": "2026-02-07", "date_display": "Samedi 7 Février 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "BULLET Marius", "month": "Février 2026"}, {"date": "2026-02-17", "date_display": "Mardi 17 Février 2026", "day": "Mardi", "service": "Audio", "person": "LANDEAU Sammy", "month": "Février 2026"}, {"date": "2026-02-17", "date_display": "Mardi 17 Février 2026", "day": "Mardi", "service": "Vidéo", "person": "PAPA Antoni", "month": "Février 2026"}, {"date": "2026-02-17", "date_display": "Mardi 17 Février 2026", "day": "Mardi", "service": "Perches - Partie 1", "person": "GBEDEDJI Credo", "month": "Février 2026"}, {"date": "2026-02-17", "date_display": "Mardi 17 Février 2026", "day": "Mardi", "service": "Perches - Partie 2", "person": "POMPEU Marc", "month": "Février 2026"}, {"date": "2026-02-17", "date_display": "Mardi 17 Février 2026", "day": "Mardi", "service": "Estrade", "person": "BULLET Marius", "month": "Février 2026"}, {"date": "2026-02-17", "date_display": "Mardi 17 Février 2026", "day": "Mardi", "service": "Estrade - Tablette", "person": "BERGAME Maïley", "month": "Février 2026"}, {"date": "2026-02-17", "date_display": "Mardi 17 Février 2026", "day": "Mardi", "service": "Accueil - Admission Zoom", "person": "VILSANS Thierry", "month": "Février 2026"}, {"date": "2026-02-17", "date_display": "Mardi 17 Février 2026", "day": "Mardi", "service": "Accueil - Ouverture", "person": "MAUZOLE Boris", "month": "Février 2026"}, {"date": "2026-02-17", "date_display": "Mardi 17 Février 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "LEFRAND Thierry", "month": "Février 2026"}, {"date": "2026-02-17", "date_display": "Mardi 17 Février 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "DELIN Yannick", "month": "Février 2026"}, {"date": "2026-02-21", "date_display": "Samedi 21 Février 2026", "day": "Samedi", "service": "Audio", "person": "NGO Tommy", "month": "Février 2026"}, {"date": "2026-02-21", "date_display": "Samedi 21 Février 2026", "day": "Samedi", "service": "Vidéo", "person": "MBOMA Junior", "month": "Février 2026"}, {"date": "2026-02-21", "date_display": "Samedi 21 Février 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "MPOVI Tevi - LEFRAND Thierry", "month": "Février 2026"}, {"date": "2026-02-21", "date_display": "Samedi 21 Février 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "PAPA Antoni - MIATTI Yanis", "month": "Février 2026"}, {"date": "2026-02-21", "date_display": "Samedi 21 Février 2026", "day": "Samedi", "service": "Estrade", "person": "POMPEU Joël", "month": "Février 2026"}, {"date": "2026-02-21", "date_display": "Samedi 21 Février 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "ANGERVILLE Axandre", "month": "Février 2026"}, {"date": "2026-02-21", "date_display": "Samedi 21 Février 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "MUNGULU Stivy", "month": "Février 2026"}, {"date": "2026-02-21", "date_display": "Samedi 21 Février 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "MIATTI Didier", "month": "Février 2026"}, {"date": "2026-02-21", "date_display": "Samedi 21 Février 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "POMPEU Joël", "month": "Février 2026"}, {"date": "2026-02-21", "date_display": "Samedi 21 Février 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "ALAND Alex", "month": "Février 2026"}, {"date": "2026-02-24", "date_display": "Mardi 24 Février 2026", "day": "Mardi", "service": "Audio", "person": "DELTA Joël", "month": "Février 2026"}, {"date": "2026-02-24", "date_display": "Mardi 24 Février 2026", "day": "Mardi", "service": "Vidéo", "person": "DELIN Yannick", "month": "Février 2026"}, {"date": "2026-02-24", "date_display": "Mardi 24 Février 2026", "day": "Mardi", "service": "Perches - Partie 1", "person": "ALAND Alex", "month": "Février 2026"}, {"date": "2026-02-24", "date_display": "Mardi 24 Février 2026", "day": "Mardi", "service": "Perches - Partie 2", "person": "SUARES Cedrick", "month": "Février 2026"}, {"date": "2026-02-24", "date_display": "Mardi 24 Février 2026", "day": "Mardi", "service": "Estrade", "person": "INNOCENT Robert", "month": "Février 2026"}, {"date": "2026-02-24", "date_display": "Mardi 24 Février 2026", "day": "Mardi", "service": "Estrade - Tablette", "person": "MIATTI Yanis", "month": "Février 2026"}, {"date": "2026-02-24", "date_display": "Mardi 24 Février 2026", "day": "Mardi", "service": "Accueil - Admission Zoom", "person": "MPOVI Tevi", "month": "Février 2026"}, {"date": "2026-02-24", "date_display": "Mardi 24 Février 2026", "day": "Mardi", "service": "Accueil - Ouverture", "person": "HOUCHAT Marc", "month": "Février 2026"}, {"date": "2026-02-24", "date_display": "Mardi 24 Février 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "LANDEAU Sammy", "month": "Février 2026"}, {"date": "2026-02-24", "date_display": "Mardi 24 Février 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "VAUTIER Philippe", "month": "Février 2026"}, {"date": "2026-02-28", "date_display": "Samedi 28 Février 2026", "day": "Samedi", "service": "Audio", "person": "MUNGULU Stivy", "month": "Février 2026"}, {"date": "2026-02-28", "date_display": "Samedi 28 Février 2026", "day": "Samedi", "service": "Vidéo", "person": "BERGAME Luc", "month": "Février 2026"}, {"date": "2026-02-28", "date_display": "Samedi 28 Février 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "BERGAME Maïley - VILSANS Thierry", "month": "Février 2026"}, {"date": "2026-02-28", "date_display": "Samedi 28 Février 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "LEFRAND Thierry - MAQUIABA Claude", "month": "Février 2026"}, {"date": "2026-02-28", "date_display": "Samedi 28 Février 2026", "day": "Samedi", "service": "Estrade", "person": "HOUCHAT Marc", "month": "Février 2026"}, {"date": "2026-02-28", "date_display": "Samedi 28 Février 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "MAUZOLE Maxime", "month": "Février 2026"}, {"date": "2026-02-28", "date_display": "Samedi 28 Février 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "GASPARD Steeven", "month": "Février 2026"}, {"date": "2026-02-28", "date_display": "Samedi 28 Février 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "RECCHIA Frédéric", "month": "Février 2026"}, {"date": "2026-02-28", "date_display": "Samedi 28 Février 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "POMPEU Marc", "month": "Février 2026"}, {"date": "2026-02-28", "date_display": "Samedi 28 Février 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "ZODROS Axel", "month": "Février 2026"}, {"date": "2026-03-03", "date_display": "Mardi 3 Mars 2026", "day": "Mardi", "service": "Audio", "person": "ZODROS Axel", "month": "Mars 2026"}, {"date": "2026-03-03", "date_display": "Mardi 3 Mars 2026", "day": "Mardi", "service": "Vidéo", "person": "POMPEU Joël", "month": "Mars 2026"}, {"date": "2026-03-03", "date_display": "Mardi 3 Mars 2026", "day": "Mardi", "service": "Perches - Partie 1", "person": "MBOMA Junior", "month": "Mars 2026"}, {"date": "2026-03-03", "date_display": "Mardi 3 Mars 2026", "day": "Mardi", "service": "Perches - Partie 2", "person": "DELTA Joël", "month": "Mars 2026"}, {"date": "2026-03-03", "date_display": "Mardi 3 Mars 2026", "day": "Mardi", "service": "Estrade", "person": "BERGAME Maïley", "month": "Mars 2026"}, {"date": "2026-03-03", "date_display": "Mardi 3 Mars 2026", "day": "Mardi", "service": "Estrade - Tablette", "person": "GASPARD Steeven", "month": "Mars 2026"}, {"date": "2026-03-03", "date_display": "Mardi 3 Mars 2026", "day": "Mardi", "service": "Accueil - Admission Zoom", "person": "POMPEU Marc", "month": "Mars 2026"}, {"date": "2026-03-03", "date_display": "Mardi 3 Mars 2026", "day": "Mardi", "service": "Accueil - Ouverture", "person": "BERGAME Luc", "month": "Mars 2026"}, {"date": "2026-03-03", "date_display": "Mardi 3 Mars 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "INNOCENT Robert", "month": "Mars 2026"}, {"date": "2026-03-03", "date_display": "Mardi 3 Mars 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "MPOVI Tevi", "month": "Mars 2026"}, {"date": "2026-03-07", "date_display": "Samedi 7 Mars 2026", "day": "Samedi", "service": "Audio", "person": "LANDEAU Sammy", "month": "Mars 2026"}, {"date": "2026-03-07", "date_display": "Samedi 7 Mars 2026", "day": "Samedi", "service": "Vidéo", "person": "RECCHIA Raphaël", "month": "Mars 2026"}, {"date": "2026-03-07", "date_display": "Samedi 7 Mars 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "MBOMA Junior", "month": "Mars 2026"}, {"date": "2026-03-07", "date_display": "Samedi 7 Mars 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "POMPEU Marc", "month": "Mars 2026"}, {"date": "2026-03-07", "date_display": "Samedi 7 Mars 2026", "day": "Samedi", "service": "Estrade", "person": "HOUCHAT Marc", "month": "Mars 2026"}, {"date": "2026-03-07", "date_display": "Samedi 7 Mars 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "ANGERVILLE Axandre", "month": "Mars 2026"}, {"date": "2026-03-07", "date_display": "Samedi 7 Mars 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "MAUZOLE Boris", "month": "Mars 2026"}, {"date": "2026-03-07", "date_display": "Samedi 7 Mars 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "VAUTIER Philippe", "month": "Mars 2026"}, {"date": "2026-03-07", "date_display": "Samedi 7 Mars 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "MUHEL Mathieu", "month": "Mars 2026"}, {"date": "2026-03-07", "date_display": "Samedi 7 Mars 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "ZODROS Axel", "month": "Mars 2026"}, {"date": "2026-03-10", "date_display": "Mardi 10 Mars 2026", "day": "Mardi", "service": "Audio", "person": "POMPEU Marc", "month": "Mars 2026"}, {"date": "2026-03-10", "date_display": "Mardi 10 Mars 2026", "day": "Mardi", "service": "Vidéo", "person": "VAUTIER Philippe", "month": "Mars 2026"}, {"date": "2026-03-10", "date_display": "Mardi 10 Mars 2026", "day": "Mardi", "service": "Perches - Partie 1", "person": "SUARES Cedrick", "month": "Mars 2026"}, {"date": "2026-03-10", "date_display": "Mardi 10 Mars 2026", "day": "Mardi", "service": "Perches - Partie 2", "person": "MAUZOLE Maxime", "month": "Mars 2026"}, {"date": "2026-03-10", "date_display": "Mardi 10 Mars 2026", "day": "Mardi", "service": "Estrade", "person": "INNOCENT Robert", "month": "Mars 2026"}, {"date": "2026-03-10", "date_display": "Mardi 10 Mars 2026", "day": "Mardi", "service": "Estrade - Tablette", "person": "BERGAME Maïley", "month": "Mars 2026"}, {"date": "2026-03-10", "date_display": "Mardi 10 Mars 2026", "day": "Mardi", "service": "Accueil - Admission Zoom", "person": "MPOVI Tevi", "month": "Mars 2026"}, {"date": "2026-03-10", "date_display": "Mardi 10 Mars 2026", "day": "Mardi", "service": "Accueil - Ouverture", "person": "HOUCHAT Marc", "month": "Mars 2026"}, {"date": "2026-03-10", "date_display": "Mardi 10 Mars 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "DELIN Yannick", "month": "Mars 2026"}, {"date": "2026-03-10", "date_display": "Mardi 10 Mars 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "LANDEAU Sammy", "month": "Mars 2026"}, {"date": "2026-03-14", "date_display": "Samedi 14 Mars 2026", "day": "Samedi", "service": "Audio", "person": "MBOMA Junior", "month": "Mars 2026"}, {"date": "2026-03-14", "date_display": "Samedi 14 Mars 2026", "day": "Samedi", "service": "Vidéo", "person": "BERGAME Luc", "month": "Mars 2026"}, {"date": "2026-03-14", "date_display": "Samedi 14 Mars 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "LANDEAU Sammy", "month": "Mars 2026"}, {"date": "2026-03-14", "date_display": "Samedi 14 Mars 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "DESERT Jean-Michel", "month": "Mars 2026"}, {"date": "2026-03-14", "date_display": "Samedi 14 Mars 2026", "day": "Samedi", "service": "Estrade", "person": "BERGAME Maïley", "month": "Mars 2026"}, {"date": "2026-03-14", "date_display": "Samedi 14 Mars 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "MAUZOLE Maxime", "month": "Mars 2026"}, {"date": "2026-03-14", "date_display": "Samedi 14 Mars 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "MUNGULU Stivy", "month": "Mars 2026"}, {"date": "2026-03-14", "date_display": "Samedi 14 Mars 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "GASPARD Jean", "month": "Mars 2026"}, {"date": "2026-03-14", "date_display": "Samedi 14 Mars 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "POMPEU Marc", "month": "Mars 2026"}, {"date": "2026-03-14", "date_display": "Samedi 14 Mars 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "RECCHIA Frédéric", "month": "Mars 2026"}, {"date": "2026-03-17", "date_display": "Mardi 17 Mars 2026", "day": "Mardi", "service": "Audio", "person": "MUNGULU Stivy", "month": "Mars 2026"}, {"date": "2026-03-17", "date_display": "Mardi 17 Mars 2026", "day": "Mardi", "service": "Vidéo", "person": "ZODROS Axel", "month": "Mars 2026"}, {"date": "2026-03-17", "date_display": "Mardi 17 Mars 2026", "day": "Mardi", "service": "Perches - Partie 1", "person": "NGO Tommy", "month": "Mars 2026"}, {"date": "2026-03-17", "date_display": "Mardi 17 Mars 2026", "day": "Mardi", "service": "Perches - Partie 2", "person": "BULLET Marius", "month": "Mars 2026"}, {"date": "2026-03-17", "date_display": "Mardi 17 Mars 2026", "day": "Mardi", "service": "Estrade", "person": "RECCHIA Raphaël", "month": "Mars 2026"}, {"date": "2026-03-17", "date_display": "Mardi 17 Mars 2026", "day": "Mardi", "service": "Estrade - Tablette", "person": "MIATTI Yanis", "month": "Mars 2026"}, {"date": "2026-03-17", "date_display": "Mardi 17 Mars 2026", "day": "Mardi", "service": "Accueil - Admission Zoom", "person": "LANDEAU Sammy", "month": "Mars 2026"}, {"date": "2026-03-17", "date_display": "Mardi 17 Mars 2026", "day": "Mardi", "service": "Accueil - Ouverture", "person": "RECCHIA Frédéric", "month": "Mars 2026"}, {"date": "2026-03-17", "date_display": "Mardi 17 Mars 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "LEFRAND Thierry", "month": "Mars 2026"}, {"date": "2026-03-17", "date_display": "Mardi 17 Mars 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "VILSANS Thierry", "month": "Mars 2026"}, {"date": "2026-03-21", "date_display": "Samedi 21 Mars 2026", "day": "Samedi", "service": "Audio", "person": "VILSANS Thierry", "month": "Mars 2026"}, {"date": "2026-03-21", "date_display": "Samedi 21 Mars 2026", "day": "Samedi", "service": "Vidéo", "person": "NGO Tommy", "month": "Mars 2026"}, {"date": "2026-03-21", "date_display": "Samedi 21 Mars 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "INNOCENT Robert", "month": "Mars 2026"}, {"date": "2026-03-21", "date_display": "Samedi 21 Mars 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "ALAND Alex", "month": "Mars 2026"}, {"date": "2026-03-21", "date_display": "Samedi 21 Mars 2026", "day": "Samedi", "service": "Estrade", "person": "LEFRAND Thierry", "month": "Mars 2026"}, {"date": "2026-03-21", "date_display": "Samedi 21 Mars 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "GASPARD Steeven", "month": "Mars 2026"}, {"date": "2026-03-21", "date_display": "Samedi 21 Mars 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "MBOMA Junior", "month": "Mars 2026"}, {"date": "2026-03-21", "date_display": "Samedi 21 Mars 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "MPOVI Tevi", "month": "Mars 2026"}, {"date": "2026-03-21", "date_display": "Samedi 21 Mars 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "BERGAME Maïley", "month": "Mars 2026"}, {"date": "2026-03-21", "date_display": "Samedi 21 Mars 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "INNOCENT Robert", "month": "Mars 2026"}, {"date": "2026-03-24", "date_display": "Mardi 24 Mars 2026", "day": "Mardi", "service": "Audio", "person": "DELTA Joël", "month": "Mars 2026"}, {"date": "2026-03-24", "date_display": "Mardi 24 Mars 2026", "day": "Mardi", "service": "Vidéo", "person": "BERGAME Luc", "month": "Mars 2026"}, {"date": "2026-03-24", "date_display": "Mardi 24 Mars 2026", "day": "Mardi", "service": "Perches - Partie 1", "person": "LEFRAND Thierry", "month": "Mars 2026"}, {"date": "2026-03-24", "date_display": "Mardi 24 Mars 2026", "day": "Mardi", "service": "Perches - Partie 2", "person": "RECCHIA Raphaël", "month": "Mars 2026"}, {"date": "2026-03-24", "date_display": "Mardi 24 Mars 2026", "day": "Mardi", "service": "Estrade", "person": "DELIN Yannick", "month": "Mars 2026"}, {"date": "2026-03-24", "date_display": "Mardi 24 Mars 2026", "day": "Mardi", "service": "Estrade - Tablette", "person": "ANGERVILLE Axandre", "month": "Mars 2026"}, {"date": "2026-03-24", "date_display": "Mardi 24 Mars 2026", "day": "Mardi", "service": "Accueil - Admission Zoom", "person": "ZODROS Axel", "month": "Mars 2026"}, {"date": "2026-03-24", "date_display": "Mardi 24 Mars 2026", "day": "Mardi", "service": "Accueil - Ouverture", "person": "MAUZOLE Boris", "month": "Mars 2026"}, {"date": "2026-03-24", "date_display": "Mardi 24 Mars 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "ALAND Alex", "month": "Mars 2026"}, {"date": "2026-03-24", "date_display": "Mardi 24 Mars 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "MUNGULU Stivy", "month": "Mars 2026"}, {"date": "2026-03-28", "date_display": "Samedi 28 Mars 2026", "day": "Samedi", "service": "Audio", "person": "ZODROS Axel", "month": "Mars 2026"}, {"date": "2026-03-28", "date_display": "Samedi 28 Mars 2026", "day": "Samedi", "service": "Vidéo", "person": "MBOMA Junior", "month": "Mars 2026"}, {"date": "2026-03-28", "date_display": "Samedi 28 Mars 2026", "day": "Samedi", "service": "Perches - Partie 1", "person": "BERGAME Luc", "month": "Mars 2026"}, {"date": "2026-03-28", "date_display": "Samedi 28 Mars 2026", "day": "Samedi", "service": "Perches - Partie 2", "person": "MAQUIABA Claude", "month": "Mars 2026"}, {"date": "2026-03-28", "date_display": "Samedi 28 Mars 2026", "day": "Samedi", "service": "Estrade", "person": "VILSANS Thierry", "month": "Mars 2026"}, {"date": "2026-03-28", "date_display": "Samedi 28 Mars 2026", "day": "Samedi", "service": "Estrade - Tablette", "person": "MAUZOLE Maxime", "month": "Mars 2026"}, {"date": "2026-03-28", "date_display": "Samedi 28 Mars 2026", "day": "Samedi", "service": "Accueil - Admission Zoom", "person": "DELTA Joël", "month": "Mars 2026"}, {"date": "2026-03-28", "date_display": "Samedi 28 Mars 2026", "day": "Samedi", "service": "Accueil - Ouverture", "person": "MIATTI Didier", "month": "Mars 2026"}, {"date": "2026-03-28", "date_display": "Samedi 28 Mars 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "GOSSET Samuel", "month": "Mars 2026"}, {"date": "2026-03-28", "date_display": "Samedi 28 Mars 2026", "day": "Samedi", "service": "Accueil - Auditorium", "person": "MPOVI Tevi", "month": "Mars 2026"}, {"date": "2026-03-31", "date_display": "Mardi 31 Mars 2026", "day": "Mardi", "service": "Audio", "person": "NGO Tommy", "month": "Mars 2026"}, {"date": "2026-03-31", "date_display": "Mardi 31 Mars 2026", "day": "Mardi", "service": "Vidéo", "person": "MUNGULU Stivy", "month": "Mars 2026"}, {"date": "2026-03-31", "date_display": "Mardi 31 Mars 2026", "day": "Mardi", "service": "Perches - Partie 1", "person": "ZODROS Axel", "month": "Mars 2026"}, {"date": "2026-03-31", "date_display": "Mardi 31 Mars 2026", "day": "Mardi", "service": "Perches - Partie 2", "person": "MIATTI Yanis", "month": "Mars 2026"}, {"date": "2026-03-31", "date_display": "Mardi 31 Mars 2026", "day": "Mardi", "service": "Estrade", "person": "HOUCHAT Marc", "month": "Mars 2026"}, {"date": "2026-03-31", "date_display": "Mardi 31 Mars 2026", "day": "Mardi", "service": "Estrade - Tablette", "person": "BERGAME Maïley", "month": "Mars 2026"}, {"date": "2026-03-31", "date_display": "Mardi 31 Mars 2026", "day": "Mardi", "service": "Accueil - Admission Zoom", "person": "BERGAME Luc", "month": "Mars 2026"}, {"date": "2026-03-31", "date_display": "Mardi 31 Mars 2026", "day": "Mardi", "service": "Accueil - Ouverture", "person": "ALAND Alex", "month": "Mars 2026"}, {"date": "2026-03-31", "date_display": "Mardi 31 Mars 2026", "day": "Mardi", "service": "Accueil - Auditorium", "person": "MBOMA Junior MPOVI Terreblanche", "month": "Mars 2026"}];
+
+var PERSONS=["ALAND Alex","ANGERVILLE Axandre","BERGAME Luc","BERGAME Maïley","BULLET Marius","DELIN Yannick","DELTA Joël","DESERT Jean-Michel","GASPARD Jean","GASPARD Steeven","GBEDEDJI Credo","GOSSET Samuel","HOUCHAT Marc","INNOCENT Robert","LANDEAU Sammy","LEFRAND Thierry","MALELA Bruce","MAQUIABA Claude","MAUZOLE Boris","MAUZOLE Maxime","MBOMA Junior","MIATTI Didier","MIATTI Yanis","MPOVI Tevi","MUHEL Mathieu","MUNGULU Stivy","NGO Tommy","PAPA Antoni","PATIENT Clyde","POMPEU Joël","POMPEU Marc","RECCHIA Frédéric","RECCHIA Raphaël","SUARES Cedrick","VAUTIER Philippe","VILSANS Thierry","ZODROS Axel"];
+
+var SERVICES_ORDER=['Audio','Vidéo','Perches - Partie 1','Perches - Partie 2','Estrade','Estrade - Tablette','Accueil - Admission Zoom','Accueil - Ouverture','Accueil - Auditorium'];
+var MONTHS=['Janvier 2026','Février 2026','Mars 2026'];
+var MONTHS_FR=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+var DAYS_FR=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+var statusMap={};
+var popupCtx=null;
+var dispoResponses=[];
+var dispoState={};
+var dayFilter='';
+var currentTab='planning';
+
+// ===== UTILS =====
+function statusKey(p,d,s){return p+'||'+d+'||'+s;}
+function getStatus(p,d,s){return statusMap[statusKey(p,d,s)]||'normal';}
+function setStatus(p,d,s,st){statusMap[statusKey(p,d,s)]=st;}
+function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// Parse persons from a field (handles multiple separators)
+function parsePersons(personStr){
+  if(!personStr) return [];
+  return personStr.split(/\s{2,}|-(?=\s*[A-Z])/).map(function(p){return p.trim();}).filter(Boolean);
+}
+
+// Build person map
+var personMap={};
+for(var i=0;i<RAW_DATA.length;i++){
+  var d=RAW_DATA[i];
+  var persons=parsePersons(d.person);
+  for(var pi=0;pi<persons.length;pi++){
+    var k=persons[pi];
+    if(!personMap[k]) personMap[k]={services:{},total:0,mardis:0,samedis:0,mercredis:0};
+    if(!personMap[k].services[d.service]) personMap[k].services[d.service]=[];
+    personMap[k].services[d.service].push({date:d.date_display,day:d.day,rawDate:d.date});
+    personMap[k].total++;
+    if(d.day==='Mardi') personMap[k].mardis++;
+    if(d.day==='Samedi') personMap[k].samedis++;
+    if(d.day==='Mercredi') personMap[k].mercredis++;
+  }
+}
+
+// Build date→persons map for replacement logic
+var datePersonsMap={}; // date -> {persons:[]}
+for(var i=0;i<RAW_DATA.length;i++){
+  var d=RAW_DATA[i];
+  if(!datePersonsMap[d.date]) datePersonsMap[d.date]={persons:[],day:d.day};
+  var persons=parsePersons(d.person);
+  for(var pi=0;pi<persons.length;pi++){
+    if(datePersonsMap[d.date].persons.indexOf(persons[pi])<0)
+      datePersonsMap[d.date].persons.push(persons[pi]);
+  }
+}
+
+// ===== TODAY DETECTION =====
+var todayStr=(function(){
+  var n=new Date();
+  var y=n.getFullYear(),mo=n.getMonth()+1,dy=n.getDate();
+  return y+'-'+(mo<10?'0'+mo:mo)+'-'+(dy<10?'0'+dy:dy);
+})();
+
+// ===== DARK MODE =====
+var darkMode=false;
+document.getElementById('darkToggle').addEventListener('click',function(){
+  darkMode=!darkMode;
+  document.documentElement.setAttribute('data-theme',darkMode?'dark':'');
+  this.textContent=darkMode?'☀️':'🌙';
+});
+
+// ===== PLANNING RENDER =====
+function renderPlanning(){
+  var monthSel=document.getElementById('monthFilter').value;
+  var filtered=RAW_DATA.filter(function(d){return(!monthSel||d.month===monthSel)&&(!dayFilter||d.day===dayFilter);});
+  var byDate={};
+  for(var i=0;i<filtered.length;i++){
+    var d=filtered[i];
+    if(!byDate[d.date]) byDate[d.date]={display:d.date_display,day:d.day,month:d.month,services:{}};
+    if(!byDate[d.date].services[d.service]) byDate[d.date].services[d.service]=[];
+    var persons=parsePersons(d.person);
+    for(var pi=0;pi<persons.length;pi++) byDate[d.date].services[d.service].push(persons[pi]);
+  }
+  var dates=Object.keys(byDate).sort();
+  if(!dates.length){document.getElementById('planning-content').innerHTML='<div class="empty">Aucun résultat</div>';return;}
+  var byMonth={};
+  for(var i=0;i<dates.length;i++){var m=byDate[dates[i]].month;if(!byMonth[m])byMonth[m]=[];byMonth[m].push(dates[i]);}
+  var html='';
+  for(var mi=0;mi<MONTHS.length;mi++){
+    var m=MONTHS[mi];if(!byMonth[m])continue;
+    html+='<div class="month-divider"><span>📅 '+esc(m)+'</span></div>';
+    for(var di=0;di<byMonth[m].length;di++){
+      var date=byMonth[m][di],info=byDate[date],dayClass=info.day.toLowerCase();
+      var isToday=(date===todayStr);
+      html+='<div class="date-section'+(isToday?' today-section':'')+'">'+
+        (isToday?'<div class="today-label">📍 Aujourd\'hui</div>':'')+
+        '<div class="date-header"><div class="date-badge '+dayClass+'">'+esc(info.display)+'</div><div class="date-line"></div></div>'+
+        '<div class="services-grid">';
+      var svcs=Object.keys(info.services).sort(function(a,b){var ia=SERVICES_ORDER.indexOf(a),ib=SERVICES_ORDER.indexOf(b);return(ia<0?99:ia)-(ib<0?99:ib);});
+      for(var si=0;si<svcs.length;si+=2){
+        html+='<div class="service-row">';
+        for(var sj=si;sj<Math.min(si+2,svcs.length);sj++){
+          var svc=svcs[sj],persons=info.services[svc],lbl=svc.replace('Accueil - ','');
+          html+='<div class="service-cell"><div class="service-label">'+esc(lbl)+'</div><div class="service-persons">';
+          for(var ppi=0;ppi<persons.length;ppi++){
+            var pname=persons[ppi],st=getStatus(pname,date,svc),stClass=st!=='normal'?' status-'+st:'',stIcon=st==='remplacer'?' ⚠️':(st==='indisponible'?' ❌':'');
+            html+='<span class="person-chip'+stClass+'" data-person="'+esc(pname)+'" data-date="'+esc(date)+'" data-service="'+esc(svc)+'">'+esc(pname)+stIcon+'</span>';
+          }
+          html+='</div></div>';
+        }
+        if(svcs.length%2!==0&&si+2>svcs.length) html+='<div class="service-cell"></div>';
+        html+='</div>';
+      }
+      html+='</div></div>';
+    }
+  }
+  document.getElementById('planning-content').innerHTML=html;
+}
+
+// ===== MON PLANNING =====
+function initMyPlan(){
+  var sel=document.getElementById('myPlanSelect');
+  sel.innerHTML='<option value="">-- Sélectionnez votre nom --</option>';
+  var sorted=Object.keys(personMap).sort();
+  for(var i=0;i<sorted.length;i++){
+    var opt=document.createElement('option');
+    opt.value=sorted[i];opt.textContent=sorted[i];sel.appendChild(opt);
+  }
+}
+function renderMyPlan(name){
+  var banner=document.getElementById('myplan-banner');
+  var content=document.getElementById('myplan-content');
+  if(!name){banner.style.display='none';content.innerHTML='<div class="empty">Sélectionnez votre nom pour voir vos services</div>';return;}
+  var info=personMap[name];
+  if(!info){banner.style.display='none';content.innerHTML='<div class="empty">Aucun service trouvé</div>';return;}
+  // Banner
+  banner.style.display='flex';
+  document.getElementById('myplan-banner-name').textContent=name;
+  document.getElementById('myplan-banner-sub').textContent=info.total+' service'+(info.total>1?'s':'')+' au total';
+  // Get all entries for this person
+  var myEntries=[];
+  for(var i=0;i<RAW_DATA.length;i++){
+    var d=RAW_DATA[i];
+    var persons=parsePersons(d.person);
+    for(var pi=0;pi<persons.length;pi++){
+      if(persons[pi]===name) myEntries.push({date:d.date,display:d.date_display,day:d.day,service:d.service,month:d.month});
+    }
+  }
+  myEntries.sort(function(a,b){return a.date>b.date?1:-1;});
+  // Group by month
+  var byMonth={};
+  for(var i=0;i<myEntries.length;i++){
+    var m=myEntries[i].month;if(!byMonth[m])byMonth[m]=[];byMonth[m].push(myEntries[i]);
+  }
+  var html='';
+  for(var mi=0;mi<MONTHS.length;mi++){
+    var m=MONTHS[mi];if(!byMonth[m])continue;
+    html+='<div class="month-divider"><span>📅 '+esc(m)+'</span></div>';
+    for(var ei=0;ei<byMonth[m].length;ei++){
+      var e=byMonth[m][ei],dayClass=e.day.toLowerCase();
+      var isToday=(e.date===todayStr),st=getStatus(name,e.date,e.service);
+      var stClass=st!=='normal'?' status-'+st:'',stIcon=st==='remplacer'?' ⚠️':(st==='indisponible'?' ❌':'');
+      html+='<div class="date-section'+(isToday?' today-section':'')+'">'+(isToday?'<div class="today-label">📍 Aujourd\'hui</div>':'')+
+        '<div class="date-header"><div class="date-badge '+dayClass+'">'+esc(e.display)+'</div><div class="date-line"></div></div>'+
+        '<div class="services-grid"><div class="service-row"><div class="service-cell">'+
+        '<div class="service-label">'+esc(e.service.replace('Accueil - ',''))+'</div>'+
+        '<div class="service-persons"><span class="person-chip'+stClass+' highlighted" data-person="'+esc(name)+'" data-date="'+esc(e.date)+'" data-service="'+esc(e.service)+'">'+esc(name)+stIcon+'</span></div>'+
+        '</div></div></div></div>';
+    }
+  }
+  content.innerHTML=html;
+}
+
+// ===== PERSONS =====
+function renderPersons(query){
+  var q=(query||'').toLowerCase().trim();
+  var persons=Object.keys(personMap).filter(function(p){return!q||p.toLowerCase().indexOf(q)>=0;}).sort();
+  if(!persons.length){document.getElementById('persons-content').innerHTML='<div class="empty">Aucune personne trouvée</div>';return;}
+  var html='<div class="persons-grid">';
+  for(var i=0;i<persons.length;i++){
+    var p=persons[i],info=personMap[p];
+    html+='<div class="person-card" data-person="'+esc(p)+'"><div class="person-name">'+esc(p)+'</div><div class="person-stats"><span class="stat-badge">⚡ '+info.total+' svc</span>'+(info.mardis?'<span class="stat-badge">'+info.mardis+' Mar</span>':'')+(info.samedis?'<span class="stat-badge">'+info.samedis+' Sam</span>':'')+(info.mercredis?'<span class="stat-badge">'+info.mercredis+' Mer</span>':'')+'</div></div>';
+  }
+  html+='</div>';
+  document.getElementById('persons-content').innerHTML=html;
+}
+
+// ===== PANEL =====
+function openPanel(name){
+  var info=personMap[name];if(!info)return;
+  document.getElementById('panelName').textContent=name;
+  var s='<span class="panel-stat">⚡ '+info.total+' service'+(info.total>1?'s':'')+'</span>';
+  if(info.mardis) s+='<span class="panel-stat">'+info.mardis+' Mardi'+(info.mardis>1?'s':'')+'</span>';
+  if(info.samedis) s+='<span class="panel-stat">'+info.samedis+' Samedi'+(info.samedis>1?'s':'')+'</span>';
+  if(info.mercredis) s+='<span class="panel-stat">'+info.mercredis+' Mercredi'+(info.mercredis>1?'s':'')+'</span>';
+  document.getElementById('panelStats').innerHTML=s;
+  var bodyHtml='',svcs=Object.keys(info.services).sort(function(a,b){var ia=SERVICES_ORDER.indexOf(a),ib=SERVICES_ORDER.indexOf(b);return(ia<0?99:ia)-(ib<0?99:ib);});
+  for(var i=0;i<svcs.length;i++){
+    var svc=svcs[i];bodyHtml+='<div class="svc-group"><div class="svc-group-title">🎯 '+esc(svc)+'</div>';
+    var entries=info.services[svc].slice().sort(function(a,b){return a.rawDate>b.rawDate?1:-1;});
+    for(var j=0;j<entries.length;j++){
+      var dc=entries[j].day.toLowerCase(),st=getStatus(name,entries[j].rawDate,svc),stIcon=st==='remplacer'?' ⚠️':(st==='indisponible'?' ❌':''),stStyle=st==='remplacer'?' style="background:#FED7AA;border-color:#F97316;"':(st==='indisponible'?' style="background:#FECACA;border-color:#EF4444;"':'');
+      bodyHtml+='<div class="date-entry"'+stStyle+'><div class="day-dot '+dc+'"></div><span>'+esc(entries[j].date)+stIcon+'</span></div>';
+    }
+    bodyHtml+='</div>';
+  }
+  document.getElementById('panelBody').innerHTML=bodyHtml;
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('panel').classList.add('open');
+}
+function closePanel(){document.getElementById('overlay').classList.remove('open');document.getElementById('panel').classList.remove('open');}
+
+// ===== SMART REPLACEMENT SUGGESTIONS =====
+function getSuggestedReplacements(absentPerson, date, service){
+  // Find all persons NOT already scheduled on this date
+  var scheduledOnDate=datePersonsMap[date]?datePersonsMap[date].persons:[];
+  var candidates=[];
+  var allPersons=Object.keys(personMap);
+  for(var i=0;i<allPersons.length;i++){
+    var p=allPersons[i];
+    if(p===absentPerson) continue;
+    if(scheduledOnDate.indexOf(p)>=0) continue; // already busy
+    if(getStatus(p,date,'')!=='normal'&&getStatus(p,date,service)==='indisponible') continue;
+    // Score: same service experience is top priority
+    var score=0;
+    var info=personMap[p];
+    if(info.services[service]) score+=10; // knows this service
+    // Fewer total services = more available
+    var maxServices=Math.max.apply(null,allPersons.map(function(pp){return personMap[pp]?personMap[pp].total:0;}));
+    score+=Math.round((1-(info.total/maxServices))*5);
+    candidates.push({name:p,score:score,knowsService:!!info.services[service],total:info.total});
+  }
+  candidates.sort(function(a,b){return b.score-a.score;});
+  return candidates.slice(0,5);
+}
+
+// ===== POPUP =====
+function getDateDisplay(rawDate){for(var i=0;i<RAW_DATA.length;i++){if(RAW_DATA[i].date===rawDate)return RAW_DATA[i].date_display;}return rawDate;}
+function buildWAMessage(person,service,dateDisplay,status){var statusText=status==='remplacer'?'cherche un remplaçant':'est indisponible';return '📅 *Planning Sono & Accueil 2026*\n\nBonjour,\n\n*'+person+'* '+statusText+' pour le service suivant :\n\n🎯 Service : *'+service+'*\n🗓 Date : *'+dateDisplay+'*\n\nMerci de confirmer votre disponibilité pour le remplacer.\n\nCordialement 🙏';}
+
+function openPopup(person,date,service){
+  popupCtx={person:person,date:date,service:service};
+  document.getElementById('popupName').textContent=person;
+  document.getElementById('popupService').textContent=service;
+  document.getElementById('popupDateInfo').textContent=getDateDisplay(date);
+  var st=getStatus(person,date,service),cur=document.getElementById('popupCurrent');
+  if(st==='remplacer') cur.innerHTML='<span class="popup-current remplacer">⚠️ À remplacer</span>';
+  else if(st==='indisponible') cur.innerHTML='<span class="popup-current indisponible">❌ Indisponible</span>';
+  else cur.innerHTML='<span class="popup-current normal">✅ Disponible</span>';
+  document.getElementById('waSection').style.display='none';
+  document.getElementById('replBox').style.display='none';
+  document.getElementById('popupOverlay').classList.add('open');
+}
+function closePopup(){document.getElementById('popupOverlay').classList.remove('open');popupCtx=null;}
+
+function applyStatus(st){
+  if(!popupCtx)return;
+  setStatus(popupCtx.person,popupCtx.date,popupCtx.service,st);
+  var cur=document.getElementById('popupCurrent');
+  if(st==='remplacer') cur.innerHTML='<span class="popup-current remplacer">⚠️ À remplacer</span>';
+  else if(st==='indisponible') cur.innerHTML='<span class="popup-current indisponible">❌ Indisponible</span>';
+  else cur.innerHTML='<span class="popup-current normal">✅ Disponible</span>';
+  var waSection=document.getElementById('waSection');
+  var replBox=document.getElementById('replBox');
+  if(st!=='normal'){
+    waSection.style.display='block';
+    document.getElementById('waMsg').value=buildWAMessage(popupCtx.person,popupCtx.service,getDateDisplay(popupCtx.date),st);
+    // Show replacement suggestions
+    var suggestions=getSuggestedReplacements(popupCtx.person,popupCtx.date,popupCtx.service);
+    replBox.style.display='block';
+    document.getElementById('replCount').textContent=suggestions.length;
+    var chipsHtml='';
+    if(!suggestions.length){
+      chipsHtml='<div class="no-replacement">Aucun remplaçant disponible trouvé</div>';
+    } else {
+      for(var i=0;i<suggestions.length;i++){
+        var s=suggestions[i];
+        chipsHtml+='<div class="replacement-chip" data-repl="'+esc(s.name)+'" title="'+esc(s.name)+' — '+s.total+' services au total'+(s.knowsService?' — Connaît ce service':'')+'">'+
+          (s.knowsService?'⭐ ':'')+esc(s.name)+
+          '<span class="repl-score">+'+s.score+'</span>'+
+        '</div>';
+      }
+    }
+    document.getElementById('replChips').innerHTML=chipsHtml;
+  } else {
+    waSection.style.display='none';
+    replBox.style.display='none';
+  }
+  renderPlanning();
+  if(currentTab==='myplan') renderMyPlan(document.getElementById('myPlanSelect').value);
+  if(document.getElementById('panel').classList.contains('open')) openPanel(document.getElementById('panelName').textContent);
+}
+
+function sendWhatsApp(){
+  var phone=document.getElementById('waPhone').value.trim();
+  var msg=document.getElementById('waMsg').value.trim();
+  if(!msg){alert('Le message est vide.');return;}
+  var cleanPhone=phone.replace(/[\s\-\.]/g,'');
+  if(cleanPhone.startsWith('0')&&cleanPhone.length===10) cleanPhone='+33'+cleanPhone.substring(1);
+  var encoded=encodeURIComponent(msg);
+  var url=cleanPhone?'https://wa.me/'+cleanPhone.replace(/[^0-9+]/g,'')+'?text='+encoded:'https://wa.me/?text='+encoded;
+  window.open(url,'_blank');
+}
+
+// ===== STATISTICS =====
+function renderStats(){
+  var allPersons=Object.keys(personMap).sort();
+  var totalServices=RAW_DATA.length;
+  var totalDates=Object.keys(datePersonsMap).length;
+  var mardisCount=RAW_DATA.filter(function(d){return d.day==='Mardi';}).map(function(d){return d.date;}).filter(function(v,i,a){return a.indexOf(v)===i;}).length;
+  var samedisCount=RAW_DATA.filter(function(d){return d.day==='Samedi';}).map(function(d){return d.date;}).filter(function(v,i,a){return a.indexOf(v)===i;}).length;
+  var mercredisCount=RAW_DATA.filter(function(d){return d.day==='Mercredi';}).map(function(d){return d.date;}).filter(function(v,i,a){return a.indexOf(v)===i;}).length;
+  // Service counts
+  var svcCounts={};
+  for(var i=0;i<RAW_DATA.length;i++){
+    var svc=RAW_DATA[i].service;
+    svcCounts[svc]=(svcCounts[svc]||0)+1;
+  }
+  // Max services per person
+  var sortedByTotal=allPersons.slice().sort(function(a,b){return personMap[b].total-personMap[a].total;});
+  var maxTotal=personMap[sortedByTotal[0]]?personMap[sortedByTotal[0]].total:1;
+  var avgTotal=Math.round(allPersons.reduce(function(sum,p){return sum+personMap[p].total;},0)/allPersons.length*10)/10;
+
+  var html='';
+  // Summary cards
+  html+='<div class="stats-section"><div class="stats-section-title">📈 Vue d\'ensemble</div>';
+  html+='<div class="stats-cards">';
+  html+='<div class="stat-card"><div class="stat-card-num">'+allPersons.length+'</div><div class="stat-card-label">Personnes</div><div class="stat-card-sub">dans l\'équipe</div></div>';
+  html+='<div class="stat-card"><div class="stat-card-num">'+totalDates+'</div><div class="stat-card-label">Dates</div><div class="stat-card-sub">Jan–Mars 2026</div></div>';
+  html+='<div class="stat-card"><div class="stat-card-num">'+totalServices+'</div><div class="stat-card-label">Postes</div><div class="stat-card-sub">au total</div></div>';
+  html+='<div class="stat-card"><div class="stat-card-num">'+avgTotal+'</div><div class="stat-card-label">Moy. services</div><div class="stat-card-sub">par personne</div></div>';
+  html+='</div></div>';
+  // Day breakdown
+  html+='<div class="stats-section"><div class="stats-section-title">📅 Répartition par jour</div><div class="day-pie-wrap">';
+  html+='<div class="day-pie"><div class="day-pie-num mardi">'+mardisCount+'</div><div class="day-pie-label">Mardis</div></div>';
+  html+='<div class="day-pie"><div class="day-pie-num samedi">'+samedisCount+'</div><div class="day-pie-label">Samedis</div></div>';
+  html+='<div class="day-pie"><div class="day-pie-num mercredi">'+mercredisCount+'</div><div class="day-pie-label">Mercredis</div></div>';
+  html+='</div></div>';
+  // Services breakdown
+  html+='<div class="stats-section"><div class="stats-section-title">🎯 Services les plus fréquents</div><div class="service-stat-grid">';
+  var svcKeys=Object.keys(svcCounts).sort(function(a,b){return svcCounts[b]-svcCounts[a];});
+  for(var si=0;si<svcKeys.length;si++){
+    var svcName=svcKeys[si].replace('Accueil - ','').replace('Perches - ','Perches ');
+    html+='<div class="service-stat-pill"><div class="ssp-label">'+esc(svcName)+'</div><div class="ssp-value">'+svcCounts[svcKeys[si]]+'</div><div class="ssp-sub">postes assignés</div></div>';
+  }
+  html+='</div></div>';
+  // Top persons bar chart
+  html+='<div class="stats-section"><div class="stats-section-title">👥 Services par personne (Top 15)</div><div class="chart-bar-wrap">';
+  var top15=sortedByTotal.slice(0,15);
+  for(var i=0;i<top15.length;i++){
+    var p=top15[i],info=personMap[p];
+    var pct=Math.round((info.total/maxTotal)*100);
+    html+='<div class="chart-bar-row"><div class="chart-bar-name" title="'+esc(p)+'">'+esc(p.split(' ')[0])+'</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:'+pct+'%"></div></div><div class="chart-bar-val">'+info.total+'</div></div>';
+  }
+  html+='</div></div>';
+  document.getElementById('stats-content').innerHTML=html;
+}
+
+// ===== DISPONIBILITES =====
+function getNextMonthDates(){
+  var now=new Date();
+  var nextMonth=new Date(now.getFullYear(),now.getMonth()+1,1);
+  var y=nextMonth.getFullYear(),m=nextMonth.getMonth();
+  var dates=[],daysInMonth=new Date(y,m+1,0).getDate();
+  for(var day=1;day<=daysInMonth;day++){
+    var dt=new Date(y,m,day),dow=dt.getDay();
+    if(dow===2||dow===6){
+      dates.push({date:dt,dateStr:y+'-'+(m+1<10?'0'+(m+1):(m+1))+'-'+(day<10?'0'+day:day),dayName:dow===2?'Mardi':'Samedi',label:(dow===2?'Mardi':'Samedi')+' '+day+' '+MONTHS_FR[m]+' '+y});
+    }
+  }
+  return dates;
+}
+function initDispoTab(){
+  var open=true;
+  document.getElementById('dispo-closed-banner').style.display=open?'none':'block';
+  document.getElementById('dispo-form-wrap').style.display=open?'block':'none';
+  document.getElementById('dispo-success').style.display='none';
+  if(!open){
+    var now=new Date();
+    var nextOpen=new Date(now.getFullYear(),now.getMonth(),20);
+    if(now.getDate()>27) nextOpen=new Date(now.getFullYear(),now.getMonth()+1,20);
+    document.getElementById('dispo-next-open').textContent='Prochaine ouverture : 20 '+MONTHS_FR[nextOpen.getMonth()]+' '+nextOpen.getFullYear();
+    return;
+  }
+  var now=new Date(),nextMonth=new Date(now.getFullYear(),now.getMonth()+1,1);
+  document.getElementById('dispo-month-label').textContent=MONTHS_FR[nextMonth.getMonth()]+' '+nextMonth.getFullYear();
+  document.getElementById('dispo-deadline-label').textContent='Clôture le 27 '+MONTHS_FR[now.getMonth()]+' '+now.getFullYear();
+  var sel=document.getElementById('dispoSelect');
+  sel.innerHTML='<option value="">-- Sélectionnez votre nom --</option>';
+  for(var i=0;i<PERSONS.length;i++){var opt=document.createElement('option');opt.value=PERSONS[i];opt.textContent=PERSONS[i];sel.appendChild(opt);}
+}
+function buildDispoForm(personName){
+  var dates=getNextMonthDates();dispoState={};
+  var grid=document.getElementById('dispo-dates-grid');grid.innerHTML='';
+  for(var i=0;i<dates.length;i++){
+    var dt=dates[i];dispoState[dt.dateStr]={dispo:'',prog:''};
+    var row=document.createElement('div');row.className='date-dispo-row';row.setAttribute('data-date',dt.dateStr);
+    row.innerHTML='<div class="date-dispo-day-badge'+(dt.dayName==='Samedi'?' samedi':'')+'">'+( dt.dayName==='Mardi'?'Mar':'Sam')+'</div><div class="date-dispo-date">'+dt.label+'</div><div class="dispo-toggle"><button class="dispo-toggle-btn yes" data-date="'+dt.dateStr+'" data-val="oui">Oui</button><button class="dispo-toggle-btn no" data-date="'+dt.dateStr+'" data-val="non">Non</button></div>';
+    grid.appendChild(row);
+  }
+  var progList=document.getElementById('prog-dates-list');progList.innerHTML='';
+  for(var i=0;i<dates.length;i++){
+    var dt=dates[i];var row=document.createElement('div');row.className='prog-row';
+    row.innerHTML='<div class="prog-date">'+dt.label+'</div><div class="prog-toggle"><button class="prog-toggle-btn yes" data-date="'+dt.dateStr+'" data-val="oui">Oui</button><button class="prog-toggle-btn no" data-date="'+dt.dateStr+'" data-val="non">Non</button></div>';
+    progList.appendChild(row);
+  }
+  document.getElementById('dispo-dates-section').style.display='block';
+  document.getElementById('dispo-prog-section').style.display='block';
+  document.getElementById('dispo-submit-wrap').style.display='block';
+}
+function updateDispoToggle(dateStr,val,type){
+  if(type==='dispo'){
+    dispoState[dateStr].dispo=val;
+    var row=document.querySelector('.date-dispo-row[data-date="'+dateStr+'"]');
+    if(row) row.className='date-dispo-row '+(val==='oui'?'available':'unavailable');
+    document.querySelectorAll('.dispo-toggle-btn[data-date="'+dateStr+'"]').forEach(function(b){b.classList.toggle('selected',b.getAttribute('data-val')===val);});
+  } else {
+    dispoState[dateStr].prog=val;
+    document.querySelectorAll('.prog-toggle-btn[data-date="'+dateStr+'"]').forEach(function(b){b.classList.toggle('selected',b.getAttribute('data-val')===val);});
+  }
+}
+function submitDispo(){
+  var name=document.getElementById('dispoSelect').value;
+  if(!name){alert('Veuillez sélectionner votre nom.');return;}
+  var dates=getNextMonthDates(),missing=[];
+  for(var i=0;i<dates.length;i++){if(!dispoState[dates[i].dateStr].dispo) missing.push(dates[i].dateStr);}
+  if(missing.length){
+    var firstMissing=null;
+    missing.forEach(function(dateStr){
+      var row=document.querySelector('.date-dispo-row[data-date="'+dateStr+'"]');
+      if(row){row.classList.remove('manquante');void row.offsetWidth;row.classList.add('manquante');setTimeout(function(){row.className='date-dispo-row';},2100);if(!firstMissing)firstMissing=row;}
+    });
+    if(firstMissing) firstMissing.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  var now=new Date();var entry={nom:name,soumis:now.toLocaleDateString('fr-FR')+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})};
+  for(var i=0;i<dates.length;i++){var dt=dates[i];entry[dt.label+' - Dispo']=dispoState[dt.dateStr].dispo||'';entry[dt.label+' - Programme']=dispoState[dt.dateStr].prog||'';}
+  dispoResponses.push(entry);
+  var now2=new Date(),nextMonth=new Date(now2.getFullYear(),now2.getMonth()+1,1);
+  document.getElementById('dispo-success-text').textContent='Disponibilités de '+name+' pour '+MONTHS_FR[nextMonth.getMonth()]+' '+nextMonth.getFullYear()+' bien enregistrées.';
+  document.getElementById('dispo-form-wrap').style.display='none';
+  document.getElementById('dispo-success').classList.add('show');
+  renderAdminTable();
+}
+function renderAdminTable(){
+  var content=document.getElementById('admin-table-content');
+  if(!dispoResponses.length){content.innerHTML='<div class="admin-empty">Aucune réponse pour le moment.</div>';return;}
+  var keys=Object.keys(dispoResponses[0]);
+  var html='<table class="admin-table"><thead><tr>';
+  for(var k=0;k<keys.length;k++) html+='<th>'+esc(keys[k])+'</th>';
+  html+='</tr></thead><tbody>';
+  for(var r=0;r<dispoResponses.length;r++){
+    html+='<tr>';
+    for(var k=0;k<keys.length;k++){var val=dispoResponses[r][keys[k]]||'';var cell=val==='oui'?'<span class="badge-dispo badge-oui">✓ Oui</span>':(val==='non'?'<span class="badge-dispo badge-non">✕ Non</span>':val);html+='<td>'+cell+'</td>';}
+    html+='</tr>';
+  }
+  html+='</tbody></table>';
+  content.innerHTML=html;
+}
+function exportCSV(){
+  if(!dispoResponses.length){alert('Aucune réponse à exporter.');return;}
+  var keys=Object.keys(dispoResponses[0]),rows=[keys.join(';')];
+  for(var r=0;r<dispoResponses.length;r++){var row=[];for(var k=0;k<keys.length;k++) row.push('"'+(dispoResponses[r][keys[k]]||'').replace(/"/g,'""')+'"');rows.push(row.join(';'));}
+  var csv='\uFEFF'+rows.join('\n');
+  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='disponibilites_'+new Date().toISOString().split('T')[0]+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+// ===== TABS =====
+function showTab(tab){
+  currentTab=tab;
+  var tabs=['planning','myplan','persons','stats','dispo'];
+  for(var i=0;i<tabs.length;i++){
+    var el=document.getElementById('tab-'+tabs[i]);
+    if(el) el.style.display=tabs[i]===tab?'block':'none';
+    var btn=document.getElementById('tab-'+tabs[i]+'-btn');
+    if(btn) btn.classList.toggle('active',tabs[i]===tab);
+  }
+  if(tab==='persons') renderPersons('');
+  if(tab==='dispo') initDispoTab();
+  if(tab==='stats') renderStats();
+  if(tab==='myplan') initMyPlan();
+}
+
+// ===== EVENT DELEGATION =====
+document.addEventListener('click',function(e){
+  var chip=e.target.closest('.person-chip');
+  if(chip){openPopup(chip.getAttribute('data-person'),chip.getAttribute('data-date'),chip.getAttribute('data-service'));return;}
+  var card=e.target.closest('.person-card');
+  if(card){openPanel(card.getAttribute('data-person'));return;}
+  var replChip=e.target.closest('.replacement-chip');
+  if(replChip){
+    var replName=replChip.getAttribute('data-repl');
+    document.getElementById('waMsg').value='📅 *Planning Sono & Accueil 2026*\n\nBonjour '+replName+',\n\nPourriez-vous remplacer *'+( popupCtx?popupCtx.person:'')+' * pour le service suivant ?\n\n🎯 Service : *'+(popupCtx?popupCtx.service:'')+'*\n🗓 Date : *'+(popupCtx?getDateDisplay(popupCtx.date):'' )+'*\n\nMerci de confirmer votre disponibilité.\n\nCordialement 🙏';
+    return;
+  }
+  if(e.target.id==='overlay'){closePanel();return;}
+  if(e.target.id==='panelClose'||e.target.closest('#panelClose')){closePanel();return;}
+  if(e.target.id==='tab-planning-btn'||e.target.closest('#tab-planning-btn')){showTab('planning');return;}
+  if(e.target.id==='tab-myplan-btn'||e.target.closest('#tab-myplan-btn')){showTab('myplan');return;}
+  if(e.target.id==='tab-persons-btn'||e.target.closest('#tab-persons-btn')){showTab('persons');return;}
+  if(e.target.id==='tab-stats-btn'||e.target.closest('#tab-stats-btn')){showTab('stats');return;}
+  if(e.target.id==='tab-dispo-btn'||e.target.closest('#tab-dispo-btn')){showTab('dispo');return;}
+  var filterBtn=e.target.closest('.filter-btn[data-day]');
+  if(filterBtn){dayFilter=filterBtn.getAttribute('data-day');document.querySelectorAll('.filter-btn[data-day]').forEach(function(b){b.classList.remove('active');});filterBtn.classList.add('active');renderPlanning();return;}
+  if(e.target.id==='btnRemplacer'){applyStatus('remplacer');return;}
+  if(e.target.id==='btnIndisponible'){applyStatus('indisponible');return;}
+  if(e.target.id==='btnNormal'){applyStatus('normal');return;}
+  if(e.target.id==='btnSendWA'||e.target.closest('#btnSendWA')){sendWhatsApp();return;}
+  if(e.target.id==='popupCancel'||e.target.closest('#popupCancel')){closePopup();return;}
+  if(e.target.id==='popupOverlay'&&e.target===document.getElementById('popupOverlay')){closePopup();return;}
+  var dispoBtn=e.target.closest('.dispo-toggle-btn');
+  if(dispoBtn){updateDispoToggle(dispoBtn.getAttribute('data-date'),dispoBtn.getAttribute('data-val'),'dispo');return;}
+  var progBtn=e.target.closest('.prog-toggle-btn');
+  if(progBtn){updateDispoToggle(progBtn.getAttribute('data-date'),progBtn.getAttribute('data-val'),'prog');return;}
+  if(e.target.id==='btnSubmitDispo'){submitDispo();return;}
+  if(e.target.id==='btnNewDispo'){document.getElementById('dispo-success').classList.remove('show');document.getElementById('dispo-form-wrap').style.display='block';document.getElementById('dispoSelect').value='';document.getElementById('dispo-dates-section').style.display='none';document.getElementById('dispo-prog-section').style.display='none';document.getElementById('dispo-submit-wrap').style.display='none';return;}
+  if(e.target.id==='btnToggleAdmin'||e.target.closest('#btnToggleAdmin')){var p=document.getElementById('adminPanel');p.classList.toggle('open');renderAdminTable();return;}
+  if(e.target.id==='btnExport'||e.target.closest('#btnExport')){exportCSV();return;}
+});
+
+document.getElementById('monthFilter').addEventListener('change',function(){renderPlanning();});
+document.getElementById('searchInput').addEventListener('input',function(){renderPersons(this.value);});
+document.getElementById('dispoSelect').addEventListener('change',function(){
+  if(this.value) buildDispoForm(this.value);
+  else{document.getElementById('dispo-dates-section').style.display='none';document.getElementById('dispo-prog-section').style.display='none';document.getElementById('dispo-submit-wrap').style.display='none';}
+});
+document.getElementById('myPlanSelect').addEventListener('change',function(){renderMyPlan(this.value);});
+
+// ===== INIT =====
+renderPlanning();
+</script>
+</body>
+</html>
